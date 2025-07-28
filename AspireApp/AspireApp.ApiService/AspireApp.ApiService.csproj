@@ -11,8 +11,4 @@
     <ProjectReference Include="..\AspireApp.ServiceDefaults\AspireApp.ServiceDefaults.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Web\" />
-  </ItemGroup>
-
 </Project>
