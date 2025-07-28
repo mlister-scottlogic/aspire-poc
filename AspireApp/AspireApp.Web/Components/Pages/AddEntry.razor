@@ -1,7 +1,48 @@
 ﻿@page "/addentry"
+@using AspireApp.ApiService.Contracts
 @rendermode InteractiveServer
+@inject ILogger<AddEntry> Logger
 
 <PageTitle>Add Entry</PageTitle>
 
 <h1>Add Entry</h1>
+ 
+<form method="post" @onsubmit="Submit" @formname="add-entry-form">
+    <AntiforgeryToken />
+    <div>
+        <label>
+            Title:
+            <InputText @bind-Value="Model!.Title" />
+        </label>
+    </div>
+    <div>
+        <label>
+            Description:
+            <InputText @bind-Value="Model!.Description" />
+        </label>
+    </div>
+    <div>
+        <label>
+            Date:
+            <InputDate @bind-Value="Model!.Date" />
+        </label>
+    </div>
+    <div>
+        <label>
+            Distance:
+            <InputNumber @bind-Value="Model!.Distance" />
+        </label>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
 
+@code {
+    [SupplyParameterFromForm]
+    private DailyEntry? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private void Submit() => Logger.LogInformation("Model = {Model}", Model);
+}

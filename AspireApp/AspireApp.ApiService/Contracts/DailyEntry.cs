@@ -17,7 +17,6 @@ namespace AspireApp.ApiService.Contracts
         [Required]
         public decimal? Distance { get; set; }
 
-        [Required]
         public DistanceUnit? DistanceUnit { get; set; }
     }
 }
