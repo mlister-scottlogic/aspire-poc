@@ -19,7 +19,7 @@ namespace AspireApp.ApiService.Web.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
             return Ok();
