@@ -1,5 +1,6 @@
 ﻿@page "/addentry"
 @using AspireApp.ApiService.Contracts
+@using System.Text.Json
 @rendermode InteractiveServer
 @inject ILogger<AddEntry> Logger
 
@@ -46,5 +47,5 @@
 
     protected override void OnInitialized() => Model ??= new();
 
-    private void Submit() => Logger.LogInformation("Model = {Model}", Model);
+    private void Submit() => Logger.LogInformation("Model = {Model}", JsonSerializer.Serialize(Model));
 }
