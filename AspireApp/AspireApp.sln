@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36310.24 d17.14
+VisualStudioVersion = 17.14.36310.24
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp.AppHost", "AspireApp.AppHost\AspireApp.AppHost.csproj", "{73728CFE-6F72-4350-A436-BC5130E79F45}"
 EndProject
@@ -21,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp.ApiService.Data.Core", "AspireApp.ApiService.Data.Core\AspireApp.ApiService.Data.Core.csproj", "{8415E709-9768-4CA4-A4BF-0A214C0A753F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp.ApiService.Domain.Core", "AspireApp.ApiService.Domain.Core\AspireApp.ApiService.Domain.Core.csproj", "{F09E6C2E-DC6A-415B-90F5-5CD848A18138}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp.ApiService.Common", "AspireApp.ApiService.Common\AspireApp.ApiService.Common.csproj", "{75BC6CF3-C1F6-4DB7-A604-FDCA06F9900F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{F09E6C2E-DC6A-415B-90F5-5CD848A18138}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F09E6C2E-DC6A-415B-90F5-5CD848A18138}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F09E6C2E-DC6A-415B-90F5-5CD848A18138}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75BC6CF3-C1F6-4DB7-A604-FDCA06F9900F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75BC6CF3-C1F6-4DB7-A604-FDCA06F9900F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75BC6CF3-C1F6-4DB7-A604-FDCA06F9900F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75BC6CF3-C1F6-4DB7-A604-FDCA06F9900F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
