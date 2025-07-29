@@ -62,6 +62,10 @@ namespace AspireApp.ApiService.Web.Controllers
         {
             return new DailyEntry()
             {
+                // Id is set by domain
+#pragma warning disable CS8629 // Nullable value type may be null.
+                Id = entry.Id.Value,
+#pragma warning restore CS8629 // Nullable value type may be null.
                 Title = entry.Title!,
                 Description = entry.Description,
                 Date = entry.Date,

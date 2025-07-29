@@ -1,10 +1,12 @@
-﻿using AspireApp.ApiService.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using AspireApp.ApiService.Domain.Enums;
 
 namespace AspireApp.ApiService.Contracts
 {
     public class DailyEntry
     {
+        public int Id { get; set; }
+
         [Required]
         public string? Title { get; set; }
 
