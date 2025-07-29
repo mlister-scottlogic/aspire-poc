@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AspireApp.ApiService.Contracts\AspireApp.ApiService.Contracts.csproj" />
     <ProjectReference Include="..\AspireApp.ServiceDefaults\AspireApp.ServiceDefaults.csproj" />
   </ItemGroup>
 
