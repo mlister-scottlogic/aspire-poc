@@ -1,4 +1,4 @@
-﻿namespace AspireApp.ApiService.Domain
+﻿namespace AspireApp.ApiService.Domain.Enums
 {
     public enum DistanceUnit
     {

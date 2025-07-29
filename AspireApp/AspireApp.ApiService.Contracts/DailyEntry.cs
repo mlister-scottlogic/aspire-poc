@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AspireApp.ApiService.Domain;
-
+﻿using AspireApp.ApiService.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace AspireApp.ApiService.Contracts
 {
