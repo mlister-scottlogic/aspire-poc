@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AspireApp.ApiService.Common\AspireApp.ApiService.Common.csproj" />
+    <ProjectReference Include="..\AspireApp.ApiService.Domain\AspireApp.ApiService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

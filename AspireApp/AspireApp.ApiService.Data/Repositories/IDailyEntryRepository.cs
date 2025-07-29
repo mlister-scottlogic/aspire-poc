@@ -1,11 +1,11 @@
 ﻿using AspireApp.ApiService.Common;
-using AspireApp.ApiService.Data.Models;
+using AspireApp.ApiService.Domain.Models;
 
 namespace AspireApp.ApiService.Data.Repositories
 {
     public interface IDailyEntryRepository
     {
-        Task<DailyEntryDto> AddAsync(DailyEntryDto entry);
-        Task<Optional<DailyEntryDto>> GetByIdAsync(int id);
+        Task<DailyEntry> AddAsync(DailyEntry entry);
+        Task<Optional<DailyEntry>> GetByIdAsync(int id);
     }
 }
