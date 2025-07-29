@@ -1,4 +1,5 @@
 ﻿using AspireApp.ApiService.Contracts;
+using AspireApp.ApiService.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspireApp.ApiService.Web.Controllers
@@ -7,10 +8,19 @@ namespace AspireApp.ApiService.Web.Controllers
     [ApiController]
     public class EntryController : Controller
     {
-        [HttpPost]
-        public IActionResult Post([FromBody] DailyEntry entry)
+        private readonly IDailyEntryService _service;
+
+        public EntryController(IDailyEntryService service)
         {
-            return Ok();
+            _service = service;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody] DailyEntry entry)
+        {
+            var result = await _service.AddEntryAsync(ToDomain(entry));
+
+            return Ok(ToContract(result));
         }
 
         [HttpGet]
@@ -20,9 +30,44 @@ namespace AspireApp.ApiService.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
         {
-            return Ok();
+            var result = await _service.GetDailyEntry(id);
+
+            return result.Match<IActionResult>(
+                (entry) =>
+                {
+                    return Ok(ToContract(entry));
+                },
+                NotFound
+            );
+        }
+
+        private static Domain.Models.DailyEntry ToDomain(DailyEntry entry)
+        {
+            // Validation means these properties now definitely have values
+#pragma warning disable CS8629 // Nullable value type may be null.
+            return new Domain.Models.DailyEntry()
+            {
+                Title = entry.Title!,
+                Description = entry.Description,
+                Date = entry.Date.Value,
+                Distance = entry.Distance.Value,
+                DistanceUnit = entry.DistanceUnit.Value,
+            };
+#pragma warning restore CS8629 // Nullable value type may be null.
+        }
+
+        private static DailyEntry ToContract(Domain.Models.DailyEntry entry)
+        {
+            return new DailyEntry()
+            {
+                Title = entry.Title!,
+                Description = entry.Description,
+                Date = entry.Date,
+                Distance = entry.Distance,
+                DistanceUnit = entry.DistanceUnit,
+            };
         }
     }
 }
