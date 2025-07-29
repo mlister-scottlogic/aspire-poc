@@ -1,4 +1,4 @@
-﻿using AspireApp.ApiService.Contracts.Enums;
+﻿using AspireApp.ApiService.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspireApp.ApiService.Web.Controllers

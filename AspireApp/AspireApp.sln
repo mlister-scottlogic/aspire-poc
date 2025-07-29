@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp.ApiService.Contra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp.ApiService.Domain", "AspireApp.ApiService.Domain\AspireApp.ApiService.Domain.csproj", "{B575BB04-0693-4CAF-B1AE-8A1C8ED68224}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp.ApiService.Data", "AspireApp.ApiService.Data\AspireApp.ApiService.Data.csproj", "{CA0CA4B1-D3A9-4FD0-ACDA-54D7A92C8FC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp.ApiService.Data.Core", "AspireApp.ApiService.Data.Core\AspireApp.ApiService.Data.Core.csproj", "{8415E709-9768-4CA4-A4BF-0A214C0A753F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +54,14 @@ Global
 		{B575BB04-0693-4CAF-B1AE-8A1C8ED68224}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B575BB04-0693-4CAF-B1AE-8A1C8ED68224}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B575BB04-0693-4CAF-B1AE-8A1C8ED68224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0CA4B1-D3A9-4FD0-ACDA-54D7A92C8FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0CA4B1-D3A9-4FD0-ACDA-54D7A92C8FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0CA4B1-D3A9-4FD0-ACDA-54D7A92C8FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0CA4B1-D3A9-4FD0-ACDA-54D7A92C8FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8415E709-9768-4CA4-A4BF-0A214C0A753F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8415E709-9768-4CA4-A4BF-0A214C0A753F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8415E709-9768-4CA4-A4BF-0A214C0A753F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8415E709-9768-4CA4-A4BF-0A214C0A753F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,7 +2,7 @@
 using AspireApp.ApiService.Domain;
 
 
-namespace AspireApp.ApiService.Contracts.Enums
+namespace AspireApp.ApiService.Contracts
 {
     public class DailyEntry
     {
