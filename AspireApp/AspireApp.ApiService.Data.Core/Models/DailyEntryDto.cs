@@ -1,7 +1,10 @@
-﻿namespace AspireApp.ApiService.Data.Core.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AspireApp.ApiService.Data.Core.Models
 {
     public class DailyEntryDto
     {
+        [Key]
         public int Id { get; set; }
 
         public required string Title { get; set; }
