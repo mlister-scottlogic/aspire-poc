@@ -6,7 +6,8 @@ var postgresdb = postgres.AddDatabase("postgresdb");
 var apiService = builder
     .AddProject<Projects.AspireApp_ApiService>("apiservice")
     .WithHttpHealthCheck("/health")
-    .WithReference(postgresdb);
+    .WithReference(postgresdb)
+    .WaitFor(postgresdb);
 
 builder
     .AddProject<Projects.AspireApp_Web>("webfrontend")
