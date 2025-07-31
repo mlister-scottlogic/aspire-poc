@@ -1,9 +1,15 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var apiService = builder.AddProject<Projects.AspireApp_ApiService>("apiservice")
-    .WithHttpHealthCheck("/health");
+var postgres = builder.AddPostgres("postgres");
+var postgresdb = postgres.AddDatabase("postgresdb");
 
-builder.AddProject<Projects.AspireApp_Web>("webfrontend")
+var apiService = builder
+    .AddProject<Projects.AspireApp_ApiService>("apiservice")
+    .WithHttpHealthCheck("/health")
+    .WithReference(postgresdb);
+
+builder
+    .AddProject<Projects.AspireApp_Web>("webfrontend")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
     .WithReference(apiService)
