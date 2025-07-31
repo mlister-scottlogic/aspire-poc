@@ -12,7 +12,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
 
-builder.Services.RegisterData().RegisterDomain();
+builder.AddNpgsqlDataSource("postgresdb");
+
+builder.Services.RegisterData(builder.Configuration).RegisterDomain();
 
 var app = builder.Build();
 
@@ -22,11 +24,15 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-if (app.Environment.IsDevelopment())
+var isDevelopment = app.Environment.IsDevelopment();
+
+if (isDevelopment)
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+app.Services.StartupData(isDevelopment);
 
 app.MapDefaultEndpoints();
 
