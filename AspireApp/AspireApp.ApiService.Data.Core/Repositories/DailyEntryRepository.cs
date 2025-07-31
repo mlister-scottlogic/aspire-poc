@@ -1,5 +1,5 @@
 ﻿using AspireApp.ApiService.Common;
-using AspireApp.ApiService.Data.Models;
+using AspireApp.ApiService.Data.Core.Models;
 using AspireApp.ApiService.Data.Repositories;
 using AspireApp.ApiService.Domain.Enums;
 using AspireApp.ApiService.Domain.Models;
@@ -55,7 +55,7 @@ namespace AspireApp.ApiService.Data.Core.Repositories
                 Description = entry.Description,
                 Date = entry.Date,
                 Distance = entry.Distance,
-                DistanceUnit = entry.DistanceUnit.ToString()
+                DistanceUnit = entry.DistanceUnit.ToString(),
             };
         }
 
@@ -68,7 +68,7 @@ namespace AspireApp.ApiService.Data.Core.Repositories
                 Description = entry.Description,
                 Date = entry.Date,
                 Distance = entry.Distance,
-                DistanceUnit = Enum.Parse<DistanceUnit>(entry.DistanceUnit)
+                DistanceUnit = Enum.Parse<DistanceUnit>(entry.DistanceUnit),
             };
         }
     }

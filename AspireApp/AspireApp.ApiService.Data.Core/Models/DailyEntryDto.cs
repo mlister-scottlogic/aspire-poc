@@ -1,4 +1,4 @@
-﻿namespace AspireApp.ApiService.Data.Models
+﻿namespace AspireApp.ApiService.Data.Core.Models
 {
     public class DailyEntryDto
     {
