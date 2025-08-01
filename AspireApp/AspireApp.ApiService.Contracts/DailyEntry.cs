@@ -5,8 +5,6 @@ namespace AspireApp.ApiService.Contracts
 {
     public class DailyEntry
     {
-        public int Id { get; set; }
-
         [Required]
         public string? Title { get; set; }
 
@@ -19,5 +17,11 @@ namespace AspireApp.ApiService.Contracts
         public decimal? Distance { get; set; }
 
         public DistanceUnit? DistanceUnit { get; set; }
+    }
+
+    public class DailyEntryWithId : DailyEntry
+    {
+        [Required]
+        public int? Id { get; set; }
     }
 }
