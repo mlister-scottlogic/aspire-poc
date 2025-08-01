@@ -8,49 +8,40 @@ namespace AspireApp.ApiService.Data.Core.Repositories
 {
     internal sealed class DailyEntryRepository : IDailyEntryRepository
     {
-        private readonly Dictionary<int, DailyEntryDto> _store;
+        private readonly EntryContext _entryContext;
 
-        private int _currentId;
-
-        public DailyEntryRepository()
+        public DailyEntryRepository(EntryContext entryContext)
         {
-            _store = [];
+            _entryContext = entryContext;
         }
 
         public async Task<DailyEntry> AddAsync(DailyEntry entry)
         {
-            await Task.Delay(10);
+            var dto = MapToDto(entry);
 
-            var id = Interlocked.Increment(ref _currentId);
+            var result = await _entryContext.DailyEntries.AddAsync(dto);
 
-            if (_store.ContainsKey(id))
-            {
-                throw new InvalidOperationException("Cannot add an id twice");
-            }
+            await _entryContext.SaveChangesAsync();
 
-            var dto = MapToDto(id, entry);
-            _store.Add(id, dto);
-
-            return MapToDomain(dto);
+            return MapToDomain(result.Entity);
         }
 
         public async Task<Optional<DailyEntry>> GetByIdAsync(int id)
         {
-            await Task.Delay(10);
+            var result = await _entryContext.DailyEntries.FindAsync(id);
 
-            if (_store.TryGetValue(id, out var dto))
+            if (result is not null)
             {
-                return Optional<DailyEntry>.Some(MapToDomain(dto));
+                return Optional<DailyEntry>.Some(MapToDomain(result));
             }
 
             return Optional<DailyEntry>.None();
         }
 
-        private static DailyEntryDto MapToDto(int id, DailyEntry entry)
+        private static DailyEntryDto MapToDto(DailyEntry entry)
         {
             return new DailyEntryDto()
             {
-                Id = id,
                 Title = entry.Title,
                 Description = entry.Description,
                 Date = entry.Date,

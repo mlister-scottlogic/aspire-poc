@@ -13,7 +13,7 @@ namespace AspireApp.ApiService.Data.Core.ServiceStartup
             IConfigurationManager configuration
         )
         {
-            serviceCollection.AddSingleton<IDailyEntryRepository, DailyEntryRepository>();
+            serviceCollection.AddTransient<IDailyEntryRepository, DailyEntryRepository>();
 
             serviceCollection.AddDbContextPool<EntryContext>(opt =>
                 opt.UseNpgsql(configuration.GetConnectionString("postgresdb"))

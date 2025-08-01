@@ -53,7 +53,8 @@ namespace AspireApp.ApiService.Web.Controllers
                 Description = entry.Description,
                 Date = entry.Date.Value,
                 Distance = entry.Distance.Value,
-                DistanceUnit = entry.DistanceUnit.Value,
+                // Distance unit not required yet
+                DistanceUnit = entry.DistanceUnit ?? Domain.Enums.DistanceUnit.Kilometers,
             };
 #pragma warning restore CS8629 // Nullable value type may be null.
         }
