@@ -2,7 +2,7 @@
 
 namespace AspireApp.ApiService.Data.Core.Models
 {
-    public class DailyEntryDto
+    public class DailyEntryEntity
     {
         [Key]
         public int Id { get; set; }

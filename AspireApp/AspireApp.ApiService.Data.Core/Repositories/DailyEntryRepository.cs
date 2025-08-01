@@ -17,9 +17,9 @@ namespace AspireApp.ApiService.Data.Core.Repositories
 
         public async Task<DailyEntry> AddAsync(DailyEntry entry)
         {
-            var dto = MapToDto(entry);
+            var entity = MapToEntity(entry);
 
-            var result = await _entryContext.DailyEntries.AddAsync(dto);
+            var result = await _entryContext.DailyEntries.AddAsync(entity);
 
             await _entryContext.SaveChangesAsync();
 
@@ -38,9 +38,9 @@ namespace AspireApp.ApiService.Data.Core.Repositories
             return Optional<DailyEntry>.None();
         }
 
-        private static DailyEntryDto MapToDto(DailyEntry entry)
+        private static DailyEntryEntity MapToEntity(DailyEntry entry)
         {
-            return new DailyEntryDto()
+            return new DailyEntryEntity()
             {
                 Title = entry.Title,
                 Description = entry.Description,
@@ -50,7 +50,7 @@ namespace AspireApp.ApiService.Data.Core.Repositories
             };
         }
 
-        private static DailyEntry MapToDomain(DailyEntryDto entry)
+        private static DailyEntry MapToDomain(DailyEntryEntity entry)
         {
             return new DailyEntry()
             {

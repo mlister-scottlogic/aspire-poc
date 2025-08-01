@@ -5,6 +5,6 @@ namespace AspireApp.ApiService.Data.Core
 {
     internal class EntryContext(DbContextOptions<EntryContext> options) : DbContext(options)
     {
-        public DbSet<DailyEntryDto> DailyEntries { get; set; }
+        public DbSet<DailyEntryEntity> DailyEntries { get; set; }
     }
 }
