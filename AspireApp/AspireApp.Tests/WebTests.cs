@@ -12,7 +12,10 @@ public class WebTests
         // Arrange
         var cancellationToken = TestContext.CurrentContext.CancellationToken;
 
-        var appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.AspireApp_AppHost>(cancellationToken);
+        var appHost =
+            await DistributedApplicationTestingBuilder.CreateAsync<Projects.AspireApp_AppHost>(
+                cancellationToken
+            );
         appHost.Services.AddLogging(logging =>
         {
             logging.SetMinimumLevel(LogLevel.Debug);
@@ -25,12 +28,16 @@ public class WebTests
             clientBuilder.AddStandardResilienceHandler();
         });
 
-        await using var app = await appHost.BuildAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
+        await using var app = await appHost
+            .BuildAsync(cancellationToken)
+            .WaitAsync(DefaultTimeout, cancellationToken);
         await app.StartAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
 
         // Act
         var httpClient = app.CreateHttpClient("webfrontend");
-        await app.ResourceNotifications.WaitForResourceHealthyAsync("webfrontend", cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
+        await app
+            .ResourceNotifications.WaitForResourceHealthyAsync("webfrontend", cancellationToken)
+            .WaitAsync(DefaultTimeout, cancellationToken);
         var response = await httpClient.GetAsync("/", cancellationToken);
 
         // Assert
