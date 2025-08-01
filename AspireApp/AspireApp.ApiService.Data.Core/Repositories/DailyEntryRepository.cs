@@ -21,12 +21,10 @@ namespace AspireApp.ApiService.Data.Core.Repositories
 
             var result = await _entryContext.DailyEntries.AddAsync(entity);
 
-            await _entryContext.SaveChangesAsync();
-
             return MapToDomain(result.Entity);
         }
 
-        public async Task<Optional<DailyEntry>> GetByIdAsync(int id)
+        public async Task<Optional<DailyEntry>> GetByIdAsync(Guid id)
         {
             var result = await _entryContext.DailyEntries.FindAsync(id);
 
@@ -42,6 +40,7 @@ namespace AspireApp.ApiService.Data.Core.Repositories
         {
             return new DailyEntryEntity()
             {
+                Id = entry.Id!.Value,
                 Title = entry.Title,
                 Description = entry.Description,
                 Date = entry.Date,

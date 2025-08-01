@@ -30,7 +30,7 @@ namespace AspireApp.ApiService.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             var result = await _service.GetDailyEntry(id);
 

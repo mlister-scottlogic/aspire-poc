@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AspireApp.ApiService.Domain.Enums;
+﻿using AspireApp.ApiService.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace AspireApp.ApiService.Contracts
 {
@@ -22,6 +22,6 @@ namespace AspireApp.ApiService.Contracts
     public class DailyEntryWithId : DailyEntry
     {
         [Required]
-        public int? Id { get; set; }
+        public Guid? Id { get; set; }
     }
 }

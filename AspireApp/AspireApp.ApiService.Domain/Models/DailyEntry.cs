@@ -4,7 +4,20 @@ namespace AspireApp.ApiService.Domain.Models
 {
     public class DailyEntry
     {
-        public int? Id { get; init; }
+        public static DailyEntry PopulateId(Guid id, DailyEntry dailyEntry)
+        {
+            return new()
+            {
+                Id = id,
+                Title = dailyEntry.Title,
+                Description = dailyEntry.Description,
+                Date = dailyEntry.Date,
+                Distance = dailyEntry.Distance,
+                DistanceUnit = dailyEntry.DistanceUnit,
+            };
+        }
+
+        public Guid? Id { get; init; }
 
         public required string Title { get; init; }
 
