@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspireApp.ApiService.Data.Core.Models
 {
-    [Table("DailyEntries", Schema = "apiservice")]
-    public class DailyEntryEntity
+    [Table("DailyEntryMessages", Schema = "outbox")]
+    public class DailyEntryOutboxEntity
     {
         [Key]
         public Guid Id { get; set; }
@@ -18,5 +18,10 @@ namespace AspireApp.ApiService.Data.Core.Models
         public decimal Distance { get; set; }
 
         public required string DistanceUnit { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime AddedOn { get; set; }
+
+        public bool Processed { get; set; }
     }
 }
