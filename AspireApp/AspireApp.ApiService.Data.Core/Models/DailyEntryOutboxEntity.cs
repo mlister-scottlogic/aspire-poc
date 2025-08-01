@@ -9,6 +9,8 @@ namespace AspireApp.ApiService.Data.Core.Models
         [Key]
         public Guid Id { get; set; }
 
+        public Guid EntryId { get; set; }
+
         public required string Title { get; set; }
 
         public string? Description { get; set; }
