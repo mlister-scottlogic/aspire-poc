@@ -1,5 +1,6 @@
 ﻿using AspireApp.ApiService.Messaging.Core.Jobs;
 using AspireApp.ApiService.Messaging.Core.Services;
+using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspireApp.ApiService.Messaging.Core.ServiceStartup
@@ -10,6 +11,17 @@ namespace AspireApp.ApiService.Messaging.Core.ServiceStartup
         {
             serviceProvider.AddTransient<IDailyEntryJob, DailyEntryJob>();
             serviceProvider.AddTransient<IDailyEntryEventer, DailyEntryEventer>();
+
+            return serviceProvider;
+        }
+
+        public static IServiceProvider StartupMessaging(this IServiceProvider serviceProvider)
+        {
+            RecurringJob.AddOrUpdate(
+                "daily_entries_messaging",
+                (DailyEntryJob job) => job.ProcessDailyEntriesAsync(),
+                Cron.Minutely
+            );
 
             return serviceProvider;
         }

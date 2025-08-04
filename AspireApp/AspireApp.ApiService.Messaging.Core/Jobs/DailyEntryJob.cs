@@ -1,9 +1,12 @@
 ﻿namespace AspireApp.ApiService.Messaging.Core.Jobs
 {
-    internal sealed class DailyEntryJob : IDailyEntryJob
+    public sealed class DailyEntryJob : IDailyEntryJob
     {
-        public Task ProcessDailyEntriesAsync()
+        public async Task ProcessDailyEntriesAsync()
         {
+            Console.WriteLine("Starting job");
+
+            await Task.Delay(10);
             // Get all entries
 
             // for each {
@@ -13,7 +16,9 @@
             // Save entries
             // }
 
-            throw new NotImplementedException();
+            Console.WriteLine("Finishing job");
+
+            //throw new NotImplementedException();
         }
     }
 }
