@@ -20,7 +20,8 @@ namespace AspireApp.ApiService.Messaging.Core.ServiceStartup
             RecurringJob.AddOrUpdate(
                 "daily_entries_messaging",
                 (DailyEntryJob job) => job.ProcessDailyEntriesAsync(),
-                Cron.Minutely
+                // Every 5 seconds
+                "*/5 * * * * *"
             );
 
             return serviceProvider;

@@ -20,7 +20,12 @@ builder.AddNpgsqlDataSource("postgresdb");
 builder.Services.RegisterData(builder.Configuration).RegisterDomain();
 
 builder.Services.AddHangfire(c => c.UseInMemoryStorage());
-builder.Services.AddHangfireServer();
+
+// Default is 15 seconds, if we want schedules less than that we need to make this smaller than
+// The delay between jobs
+builder.Services.AddHangfireServer(o =>
+    o.SchedulePollingInterval = TimeSpan.FromMilliseconds(1000)
+);
 
 var app = builder.Build();
 
