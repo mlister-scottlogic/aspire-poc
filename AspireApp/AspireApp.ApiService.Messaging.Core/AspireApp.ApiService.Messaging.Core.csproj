@@ -6,10 +6,12 @@
     <WarningsAsErrors>true</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.20" />
     <PackageReference Include="Hangfire.Core" Version="1.8.20" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AspireApp.ApiService.Data\AspireApp.ApiService.Data.csproj" />
+    <ProjectReference Include="..\AspireApp.ApiService.Messaging\AspireApp.ApiService.Messaging.csproj" />
   </ItemGroup>
 </Project>

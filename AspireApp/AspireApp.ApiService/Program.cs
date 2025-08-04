@@ -1,5 +1,6 @@
 using AspireApp.ApiService.Data.Core.ServiceStartup;
 using AspireApp.ApiService.Domain.Core.ServiceStartup;
+using AspireApp.ApiService.Messaging;
 using AspireApp.ApiService.Messaging.Core.ServiceStartup;
 using AspireApp.ServiceDefaults;
 using Hangfire;
@@ -17,7 +18,7 @@ builder.Services.AddOpenApi();
 
 builder.AddNpgsqlDataSource("postgresdb");
 
-builder.Services.RegisterData(builder.Configuration).RegisterDomain();
+builder.Services.RegisterData(builder.Configuration).RegisterDomain().RegisterMessaging();
 
 builder.Services.AddHangfire(c => c.UseInMemoryStorage());
 
@@ -46,6 +47,13 @@ if (isDevelopment)
 }
 
 app.Services.StartupData(isDevelopment).StartupMessaging();
+
+RecurringJob.AddOrUpdate(
+    "daily_entries_messaging",
+    (DailyEntryJob job) => job.ProcessDailyEntryMessages(),
+    // Every 5 seconds
+    "*/5 * * * * *"
+);
 
 app.MapDefaultEndpoints();
 
