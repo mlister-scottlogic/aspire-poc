@@ -2,6 +2,6 @@
 {
     public interface IDailyEntryMessagingService
     {
-        Task DoWorkAsync();
+        Task ProcessDailyEntryMessagesAsync();
     }
 }

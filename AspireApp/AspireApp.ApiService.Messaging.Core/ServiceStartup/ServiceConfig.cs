@@ -1,5 +1,4 @@
-﻿using AspireApp.ApiService.Messaging.Core.Jobs;
-using AspireApp.ApiService.Messaging.Core.Services;
+﻿using AspireApp.ApiService.Messaging.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspireApp.ApiService.Messaging.Core.ServiceStartup
@@ -11,11 +10,6 @@ namespace AspireApp.ApiService.Messaging.Core.ServiceStartup
             serviceProvider.AddTransient<IDailyEntryMessagingService, DailyEntryMessagingService>();
             serviceProvider.AddTransient<IDailyEntryEventer, DailyEntryEventer>();
 
-            return serviceProvider;
-        }
-
-        public static IServiceProvider StartupMessaging(this IServiceProvider serviceProvider)
-        {
             return serviceProvider;
         }
     }

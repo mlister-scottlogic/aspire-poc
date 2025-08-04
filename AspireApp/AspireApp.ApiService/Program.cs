@@ -1,6 +1,6 @@
 using AspireApp.ApiService.Data.Core.ServiceStartup;
 using AspireApp.ApiService.Domain.Core.ServiceStartup;
-using AspireApp.ApiService.Messaging;
+using AspireApp.ApiService.HangfireJobs;
 using AspireApp.ApiService.Messaging.Core.ServiceStartup;
 using AspireApp.ServiceDefaults;
 using Hangfire;
@@ -46,14 +46,10 @@ if (isDevelopment)
     app.MapScalarApiReference();
 }
 
-app.Services.StartupData(isDevelopment).StartupMessaging();
+app.Services.StartupData(isDevelopment);
 
-RecurringJob.AddOrUpdate(
-    "daily_entries_messaging",
-    (DailyEntryJob job) => job.ProcessDailyEntryMessages(),
-    // Every 5 seconds
-    "*/5 * * * * *"
-);
+// Register hangfire jobs
+DailyEntryJob.RegisterWithHangfire();
 
 app.MapDefaultEndpoints();
 

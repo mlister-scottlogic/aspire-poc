@@ -1,6 +1,6 @@
 ﻿using AspireApp.ApiService.Data.Repositories;
 
-namespace AspireApp.ApiService.Messaging.Core.Jobs
+namespace AspireApp.ApiService.Messaging.Core.Services
 {
     internal sealed class DailyEntryMessagingService : IDailyEntryMessagingService
     {
@@ -16,7 +16,7 @@ namespace AspireApp.ApiService.Messaging.Core.Jobs
             _dailyEntryEventer = dailyEntryEventer;
         }
 
-        public async Task DoWorkAsync()
+        public async Task ProcessDailyEntryMessagesAsync()
         {
             Console.WriteLine("Starting job");
 

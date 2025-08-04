@@ -1,6 +1,6 @@
 ﻿using AspireApp.ApiService.Domain.Models;
 
-namespace AspireApp.ApiService.Messaging
+namespace AspireApp.ApiService.Messaging.Core.Services
 {
     internal interface IDailyEntryEventer
     {
