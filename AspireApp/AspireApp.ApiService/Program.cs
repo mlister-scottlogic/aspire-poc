@@ -1,5 +1,6 @@
 using AspireApp.ApiService.Data.Core.ServiceStartup;
 using AspireApp.ApiService.Domain.Core.ServiceStartup;
+using AspireApp.ServiceDefaults;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
