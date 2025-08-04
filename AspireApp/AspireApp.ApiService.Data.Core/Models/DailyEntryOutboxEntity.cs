@@ -7,9 +7,8 @@ namespace AspireApp.ApiService.Data.Core.Models
     internal class DailyEntryOutboxEntity : IOutboxEntity
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime AddedOn { get; set; }
 
         public bool Processed { get; set; }

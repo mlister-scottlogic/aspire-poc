@@ -25,7 +25,7 @@ namespace AspireApp.ApiService.Data.Core.Repositories
             return new DailyEntryOutboxEntity()
             {
                 //Id = set by entity framework
-                //AddedOn = set by entity framework
+                AddedOn = DateTime.UtcNow,
                 Processed = false,
                 ProcessingAttempts = 0,
 
