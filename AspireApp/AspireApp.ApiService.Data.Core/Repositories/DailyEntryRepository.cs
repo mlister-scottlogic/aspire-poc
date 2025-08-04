@@ -15,28 +15,32 @@ namespace AspireApp.ApiService.Data.Core.Repositories
             _entryContext = entryContext;
         }
 
-        public async Task<DailyEntry> AddAsync(DailyEntry entry)
+        public async Task<DailyEntryWithId> AddAsync(DailyEntry entry)
         {
-            var entity = MapToEntity(entry);
+            // Get this from IdGenerator type interface to make testing possible
+            var newId = Guid.NewGuid();
+            var entryToSave = DailyEntryWithId.PopulateId(newId, entry);
+
+            var entity = MapToEntity(entryToSave);
 
             var result = await _entryContext.DailyEntries.AddAsync(entity);
 
             return MapToDomain(result.Entity);
         }
 
-        public async Task<Optional<DailyEntry>> GetByIdAsync(Guid id)
+        public async Task<Optional<DailyEntryWithId>> GetByIdAsync(Guid id)
         {
             var result = await _entryContext.DailyEntries.FindAsync(id);
 
             if (result is not null)
             {
-                return Optional<DailyEntry>.Some(MapToDomain(result));
+                return Optional<DailyEntryWithId>.Some(MapToDomain(result));
             }
 
-            return Optional<DailyEntry>.None();
+            return Optional<DailyEntryWithId>.None();
         }
 
-        private static DailyEntryEntity MapToEntity(DailyEntry entry)
+        private static DailyEntryEntity MapToEntity(DailyEntryWithId entry)
         {
             return new DailyEntryEntity()
             {
@@ -49,9 +53,9 @@ namespace AspireApp.ApiService.Data.Core.Repositories
             };
         }
 
-        private static DailyEntry MapToDomain(DailyEntryEntity entry)
+        private static DailyEntryWithId MapToDomain(DailyEntryEntity entry)
         {
-            return new DailyEntry()
+            return new DailyEntryWithId()
             {
                 Id = entry.Id,
                 Title = entry.Title,

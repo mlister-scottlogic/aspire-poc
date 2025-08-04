@@ -4,7 +4,20 @@ namespace AspireApp.ApiService.Domain.Models
 {
     public class DailyEntry
     {
-        public static DailyEntry PopulateId(Guid id, DailyEntry dailyEntry)
+        public required string Title { get; init; }
+
+        public string? Description { get; init; }
+
+        public DateOnly Date { get; init; }
+
+        public required decimal Distance { get; init; }
+
+        public DistanceUnit DistanceUnit { get; init; }
+    }
+
+    public class DailyEntryWithId : DailyEntry
+    {
+        public static DailyEntryWithId PopulateId(Guid id, DailyEntry dailyEntry)
         {
             return new()
             {
@@ -18,15 +31,5 @@ namespace AspireApp.ApiService.Domain.Models
         }
 
         public Guid? Id { get; init; }
-
-        public required string Title { get; init; }
-
-        public string? Description { get; init; }
-
-        public DateOnly Date { get; init; }
-
-        public required decimal Distance { get; init; }
-
-        public DistanceUnit DistanceUnit { get; init; }
     }
 }

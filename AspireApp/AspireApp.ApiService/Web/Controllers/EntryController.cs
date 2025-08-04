@@ -59,7 +59,7 @@ namespace AspireApp.ApiService.Web.Controllers
 #pragma warning restore CS8629 // Nullable value type may be null.
         }
 
-        private static DailyEntryWithId ToContract(Domain.Models.DailyEntry entry)
+        private static DailyEntryWithId ToContract(Domain.Models.DailyEntryWithId entry)
         {
             return new DailyEntryWithId()
             {

@@ -5,8 +5,8 @@ namespace AspireApp.ApiService.Domain.Services
 {
     public interface IDailyEntryService
     {
-        Task<DailyEntry> AddEntryAsync(DailyEntry entry);
+        Task<DailyEntryWithId> AddEntryAsync(DailyEntry entry);
 
-        Task<Optional<DailyEntry>> GetDailyEntry(Guid id);
+        Task<Optional<DailyEntryWithId>> GetDailyEntry(Guid id);
     }
 }

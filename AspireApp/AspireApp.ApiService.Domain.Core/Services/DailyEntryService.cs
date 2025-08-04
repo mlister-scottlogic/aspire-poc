@@ -19,19 +19,15 @@ namespace AspireApp.ApiService.Domain.Core.Services
             _transactionSaver = transactionSaver;
         }
 
-        public async Task<DailyEntry> AddEntryAsync(DailyEntry entry)
+        public async Task<DailyEntryWithId> AddEntryAsync(DailyEntry entry)
         {
-            // Get this from IdGenerator type interface to make testing possible
-            var newId = Guid.NewGuid();
-            var entryToSave = DailyEntry.PopulateId(newId, entry);
-
-            await _repository.AddAsync(entryToSave);
+            var result = await _repository.AddAsync(entry);
             await _transactionSaver.SaveChangesAsync();
 
-            return entryToSave;
+            return result;
         }
 
-        public async Task<Optional<DailyEntry>> GetDailyEntry(Guid id)
+        public async Task<Optional<DailyEntryWithId>> GetDailyEntry(Guid id)
         {
             return await _repository.GetByIdAsync(id);
         }
