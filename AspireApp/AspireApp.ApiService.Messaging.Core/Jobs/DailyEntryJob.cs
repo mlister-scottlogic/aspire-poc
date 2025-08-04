@@ -1,6 +1,6 @@
 ﻿namespace AspireApp.ApiService.Messaging.Core.Jobs
 {
-    public sealed class DailyEntryJob : IDailyEntryJob
+    public sealed class DailyEntryJob
     {
         public async Task ProcessDailyEntriesAsync()
         {

@@ -3,6 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <WarningsAsErrors>true</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Hangfire.Core" Version="1.8.20" />
@@ -10,6 +11,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AspireApp.ApiService.Data\AspireApp.ApiService.Data.csproj" />
-    <ProjectReference Include="..\AspireApp.ApiService.Messaging\AspireApp.ApiService.Messaging.csproj" />
   </ItemGroup>
 </Project>
