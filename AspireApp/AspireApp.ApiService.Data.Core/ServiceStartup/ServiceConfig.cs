@@ -14,6 +14,10 @@ namespace AspireApp.ApiService.Data.Core.ServiceStartup
         )
         {
             serviceCollection.AddTransient<IDailyEntryRepository, DailyEntryRepository>();
+            serviceCollection.AddTransient<
+                IDailyEntryOutboxRepository,
+                DailyEntryOutboxRepository
+            >();
 
             serviceCollection.AddTransient<ITransactionSaver, TransactionSaver>();
             serviceCollection.AddDbContextPool<EntryContext>(opt =>

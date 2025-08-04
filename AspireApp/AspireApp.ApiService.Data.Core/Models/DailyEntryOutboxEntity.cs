@@ -4,10 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AspireApp.ApiService.Data.Core.Models
 {
     [Table("DailyEntryMessages", Schema = "outbox")]
-    public class DailyEntryOutboxEntity
+    internal class DailyEntryOutboxEntity : IOutboxEntity
     {
         [Key]
         public Guid Id { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime AddedOn { get; set; }
+
+        public bool Processed { get; set; }
+
+        public int ProcessingAttempts { get; set; }
 
         public Guid EntryId { get; set; }
 
@@ -20,10 +27,5 @@ namespace AspireApp.ApiService.Data.Core.Models
         public decimal Distance { get; set; }
 
         public required string DistanceUnit { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime AddedOn { get; set; }
-
-        public bool Processed { get; set; }
     }
 }

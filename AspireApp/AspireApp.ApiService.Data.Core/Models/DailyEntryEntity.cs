@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AspireApp.ApiService.Data.Core.Models
 {
     [Table("DailyEntries", Schema = "apiservice")]
-    public class DailyEntryEntity
+    internal class DailyEntryEntity
     {
         [Key]
         public Guid Id { get; set; }
