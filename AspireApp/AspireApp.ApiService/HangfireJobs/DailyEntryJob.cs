@@ -22,8 +22,8 @@ namespace AspireApp.ApiService.HangfireJobs
             RecurringJob.AddOrUpdate(
                 "daily_entries_messaging",
                 (DailyEntryJob job) => job.ProcessDailyEntryMessagesAsync(),
-                // Every 5 seconds
-                "*/5 * * * * *"
+                // Every 20 seconds
+                "*/20 * * * * *"
             );
         }
     }

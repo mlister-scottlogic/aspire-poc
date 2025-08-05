@@ -24,22 +24,21 @@ namespace AspireApp.ApiService.Messaging.Core.Services
             {
                 try
                 {
-                    SendMessage(message);
-                    await _repository.MessageSuccessfullySentAsync(message);
+                    var success = await _dailyEntryEventer.DailyEntryChangedAsync(message.Entry);
+                    if (success)
+                    {
+                        await _repository.MessageSuccessfullySentAsync(message);
+                    }
+                    else
+                    {
+                        await _repository.MessageFailedToSendAsync(message);
+                    }
                 }
                 catch
                 {
                     // log this exception
                     await _repository.MessageFailedToSendAsync(message);
                 }
-            }
-        }
-
-        private void SendMessage(OutboxDailyEntry entry)
-        {
-            if (entry.Id % 3 == 0)
-            {
-                throw new InvalidOperationException();
             }
         }
     }

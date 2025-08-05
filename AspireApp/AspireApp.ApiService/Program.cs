@@ -25,8 +25,10 @@ builder.Services.AddHangfire(c => c.UseInMemoryStorage());
 // Default is 15 seconds, if we want schedules less than that we need to make this smaller than
 // The delay between jobs
 builder.Services.AddHangfireServer(o =>
-    o.SchedulePollingInterval = TimeSpan.FromMilliseconds(1000)
+    o.SchedulePollingInterval = TimeSpan.FromMilliseconds(5000)
 );
+
+builder.AddRabbitMQClient(connectionName: "messaging");
 
 var app = builder.Build();
 
