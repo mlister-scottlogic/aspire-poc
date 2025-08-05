@@ -18,21 +18,29 @@ namespace AspireApp.ApiService.Messaging.Core.Services
 
         public async Task ProcessDailyEntryMessagesAsync()
         {
-            Console.WriteLine("Starting job");
+            var messagesToProcess = await _repository.GetMessagesToProcessAsync();
 
-            await Task.Delay(10);
-            // Get all entries
+            foreach (var message in messagesToProcess)
+            {
+                try
+                {
+                    SendMessage(message);
+                    await _repository.MessageSuccessfullySentAsync(message);
+                }
+                catch
+                {
+                    // log this exception
+                    await _repository.MessageFailedToSendAsync(message);
+                }
+            }
+        }
 
-            // for each {
-            // Map to message
-            // Publish
-            // Delete from database if success
-            // Save entries
-            // }
-
-            Console.WriteLine("Finishing job");
-
-            //throw new NotImplementedException();
+        private void SendMessage(OutboxDailyEntry entry)
+        {
+            if (entry.Id % 3 == 0)
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }
