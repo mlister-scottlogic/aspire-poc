@@ -2,16 +2,22 @@
 using AspireApp.ApiService.Data.Repositories;
 using AspireApp.ApiService.Domain.Models;
 using AspireApp.ApiService.Domain.Services;
+using AspireApp.ApiService.Messaging;
 
 namespace AspireApp.ApiService.Domain.Core.Services
 {
     internal sealed class DailyEntryOutboxAdminService : IOutboxAdminService<DailyEntryWithId>
     {
         private readonly IDailyEntryOutboxRepository _repository;
+        private readonly IDailyEntryMessagingService _service;
 
-        public DailyEntryOutboxAdminService(IDailyEntryOutboxRepository repository)
+        public DailyEntryOutboxAdminService(
+            IDailyEntryOutboxRepository repository,
+            IDailyEntryMessagingService service
+        )
         {
             _repository = repository;
+            _service = service;
         }
 
         public async Task<bool> DeleteMessageAsync(int id)
@@ -45,9 +51,18 @@ namespace AspireApp.ApiService.Domain.Core.Services
             return results.Select(ToDomain).ToList();
         }
 
-        public Task<bool> RetryMessageAsync(int id)
+        public async Task<bool> RetryMessageAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _repository.GetMessageAsync(id);
+
+            return await result.MatchAsync(
+                async (m) =>
+                {
+                    await _service.ProcessDailyEntryMessageAsync(m);
+                    return true;
+                },
+                () => Task.FromResult(false)
+            );
         }
 
         private FailedOutboxMessage ToDomain(OutboxDailyEntry dailyEntry)

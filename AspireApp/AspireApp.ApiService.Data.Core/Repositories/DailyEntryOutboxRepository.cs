@@ -26,24 +26,6 @@ namespace AspireApp.ApiService.Data.Core.Repositories
             var result = await _entryContext.DailyEntryOutboxMessages.AddAsync(entity);
         }
 
-        private static DailyEntryOutboxEntity MapToEntity(DailyEntryWithId entry)
-        {
-            return new DailyEntryOutboxEntity()
-            {
-                //Id = set by entity framework
-                AddedOn = DateTime.UtcNow,
-                Processed = false,
-                ProcessingAttempts = 0,
-
-                EntryId = entry.Id!.Value,
-                Title = entry.Title,
-                Description = entry.Description,
-                Date = entry.Date,
-                Distance = entry.Distance,
-                DistanceUnit = entry.DistanceUnit.ToString(),
-            };
-        }
-
         public async Task<IReadOnlyList<OutboxDailyEntry>> GetMessagesToProcessAsync()
         {
             var results = await _entryContext
@@ -61,41 +43,24 @@ namespace AspireApp.ApiService.Data.Core.Repositories
 
         public async Task MessageSuccessfullySentAsync(OutboxDailyEntry dailyEntry)
         {
+            await DeleteMessageAsync(dailyEntry.Id);
+        }
+
+        public async Task MessageFailedToSendAsync(OutboxDailyEntry dailyEntry)
+        {
             var result = await _entryContext.DailyEntryOutboxMessages.FindAsync(dailyEntry.Id);
 
             if (result != null)
             {
-                _entryContext.DailyEntryOutboxMessages.Remove(result);
+                result.ProcessingAttempts += 1;
+                _entryContext.DailyEntryOutboxMessages.Update(result);
                 await _entryContext.SaveChangesAsync();
             }
 
             // Log this has already been deleted? Just a warning really
         }
 
-        public async Task MessageFailedToSendAsync(OutboxDailyEntry dailyEntry)
-        {
-            await DeleteMessageAsync(dailyEntry.Id);
-        }
-
-        private OutboxDailyEntry MapToOutboxModel(DailyEntryOutboxEntity entity)
-        {
-            return new OutboxDailyEntry()
-            {
-                Id = entity.Id,
-                ProcessingAttempts = entity.ProcessingAttempts,
-                Entry = new DailyEntryWithId()
-                {
-                    Id = entity.EntryId,
-                    Date = entity.Date,
-                    Title = entity.Title,
-                    Description = entity.Description,
-                    Distance = entity.Distance,
-                    DistanceUnit = Enum.Parse<DistanceUnit>(entity.DistanceUnit),
-                },
-            };
-        }
-
-        public async Task<IReadOnlyList<OutboxDailyEntry>> GetFailedMessagesAsync()
+        public async Task<IReadOnlyCollection<OutboxDailyEntry>> GetFailedMessagesAsync()
         {
             var results = await _entryContext
                 .DailyEntryOutboxMessages.Where(m =>
@@ -133,9 +98,40 @@ namespace AspireApp.ApiService.Data.Core.Repositories
             return Optional<OutboxDailyEntry>.Some(MapToOutboxModel(result));
         }
 
-        Task<IReadOnlyCollection<OutboxDailyEntry>> IDailyEntryOutboxRepository.GetFailedMessagesAsync()
+        private OutboxDailyEntry MapToOutboxModel(DailyEntryOutboxEntity entity)
         {
-            throw new NotImplementedException();
+            return new OutboxDailyEntry()
+            {
+                Id = entity.Id,
+                ProcessingAttempts = entity.ProcessingAttempts,
+                Entry = new DailyEntryWithId()
+                {
+                    Id = entity.EntryId,
+                    Date = entity.Date,
+                    Title = entity.Title,
+                    Description = entity.Description,
+                    Distance = entity.Distance,
+                    DistanceUnit = Enum.Parse<DistanceUnit>(entity.DistanceUnit),
+                },
+            };
+        }
+
+        private static DailyEntryOutboxEntity MapToEntity(DailyEntryWithId entry)
+        {
+            return new DailyEntryOutboxEntity()
+            {
+                //Id = set by entity framework
+                AddedOn = DateTime.UtcNow,
+                Processed = false,
+                ProcessingAttempts = 0,
+
+                EntryId = entry.Id!.Value,
+                Title = entry.Title,
+                Description = entry.Description,
+                Date = entry.Date,
+                Distance = entry.Distance,
+                DistanceUnit = entry.DistanceUnit.ToString(),
+            };
         }
     }
 }

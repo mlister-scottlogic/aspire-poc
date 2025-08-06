@@ -22,23 +22,28 @@ namespace AspireApp.ApiService.Messaging.Core.Services
 
             foreach (var message in messagesToProcess)
             {
-                try
+                await ProcessDailyEntryMessageAsync(message);
+            }
+        }
+
+        public async Task ProcessDailyEntryMessageAsync(OutboxDailyEntry message)
+        {
+            try
+            {
+                var success = await _dailyEntryEventer.DailyEntryChangedAsync(message.Entry);
+                if (success)
                 {
-                    var success = await _dailyEntryEventer.DailyEntryChangedAsync(message.Entry);
-                    if (success)
-                    {
-                        await _repository.MessageSuccessfullySentAsync(message);
-                    }
-                    else
-                    {
-                        await _repository.MessageFailedToSendAsync(message);
-                    }
+                    await _repository.MessageSuccessfullySentAsync(message);
                 }
-                catch
+                else
                 {
-                    // log this exception
                     await _repository.MessageFailedToSendAsync(message);
                 }
+            }
+            catch
+            {
+                // log this exception
+                await _repository.MessageFailedToSendAsync(message);
             }
         }
     }
