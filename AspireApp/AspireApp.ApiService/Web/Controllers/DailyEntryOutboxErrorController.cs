@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspireApp.ApiService.Domain.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspireApp.ApiService.Web.Controllers
 {
@@ -6,28 +7,55 @@ namespace AspireApp.ApiService.Web.Controllers
     [ApiController]
     public class DailyEntryOutboxErrorController : Controller
     {
-        [HttpGet]
-        public IActionResult Get()
+        private readonly IOutboxAdminService<Domain.Models.DailyEntryWithId> _outboxAdminService;
+
+        public DailyEntryOutboxErrorController(
+            IOutboxAdminService<Domain.Models.DailyEntryWithId> outboxAdminService
+        )
         {
-            return Ok();
+            _outboxAdminService = outboxAdminService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var results = await _outboxAdminService.GetFailedMessagesAsync();
+
+            return Ok(results.Select(ToContract).ToList());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            return Ok();
+            var result = await _outboxAdminService.GetFailedMessageAsync(id);
+
+            return Ok(ToContract(result));
         }
 
         [HttpPost("{id}/retry")]
-        public IActionResult RetryMessage([FromRoute] int id)
+        public async Task<IActionResult> RetryMessage([FromRoute] int id)
         {
-            return Ok();
+            await _outboxAdminService.RetryMessageAsync(id);
+
+            return Accepted();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteById([FromRoute] int id)
+        public async Task<IActionResult> DeleteById([FromRoute] int id)
         {
-            return Ok();
+            await _outboxAdminService.DeleteMessageAsync(id);
+
+            return Accepted();
+        }
+
+        private Contracts.FailedOutboxMessage ToContract(Domain.Models.FailedOutboxMessage message)
+        {
+            return new Contracts.FailedOutboxMessage()
+            {
+                Id = message.Id,
+                ProcessingAttempts = message.ProcessingAttempts,
+                LinkedId = message.LinkedId,
+            };
         }
     }
 }

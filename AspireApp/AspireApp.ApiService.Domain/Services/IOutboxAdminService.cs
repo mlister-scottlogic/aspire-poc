@@ -4,10 +4,12 @@ namespace AspireApp.ApiService.Domain.Services
 {
     public interface IOutboxAdminService<T>
     {
-        Task<IReadOnlyCollection<FailedOutboxMessage>> GetFailedMessages();
+        Task<IReadOnlyCollection<FailedOutboxMessage>> GetFailedMessagesAsync();
 
-        Task<bool> RetryMessage(int id);
+        Task<FailedOutboxMessage> GetFailedMessageAsync(int id);
 
-        Task DeleteMessage(int id);
+        Task RetryMessageAsync(int id);
+
+        Task DeleteMessageAsync(int id);
     }
 }
