@@ -1,4 +1,5 @@
-﻿using AspireApp.ApiService.Data.Core.Models;
+﻿using AspireApp.ApiService.Common;
+using AspireApp.ApiService.Data.Core.Models;
 using AspireApp.ApiService.Data.Repositories;
 using AspireApp.ApiService.Domain.Enums;
 using AspireApp.ApiService.Domain.Models;
@@ -73,17 +74,7 @@ namespace AspireApp.ApiService.Data.Core.Repositories
 
         public async Task MessageFailedToSendAsync(OutboxDailyEntry dailyEntry)
         {
-            var result = await _entryContext.DailyEntryOutboxMessages.FindAsync(dailyEntry.Id);
-
-            if (result != null)
-            {
-                result.ProcessingAttempts += 1;
-
-                _entryContext.DailyEntryOutboxMessages.Update(result);
-                await _entryContext.SaveChangesAsync();
-            }
-
-            // Log this has already been deleted? Just a warning really
+            await DeleteMessageAsync(dailyEntry.Id);
         }
 
         private OutboxDailyEntry MapToOutboxModel(DailyEntryOutboxEntity entity)
@@ -91,6 +82,7 @@ namespace AspireApp.ApiService.Data.Core.Repositories
             return new OutboxDailyEntry()
             {
                 Id = entity.Id,
+                ProcessingAttempts = entity.ProcessingAttempts,
                 Entry = new DailyEntryWithId()
                 {
                     Id = entity.EntryId,
@@ -101,6 +93,49 @@ namespace AspireApp.ApiService.Data.Core.Repositories
                     DistanceUnit = Enum.Parse<DistanceUnit>(entity.DistanceUnit),
                 },
             };
+        }
+
+        public async Task<IReadOnlyList<OutboxDailyEntry>> GetFailedMessagesAsync()
+        {
+            var results = await _entryContext
+                .DailyEntryOutboxMessages.Where(m =>
+                    m.ProcessingAttempts >= MAX_PROCESSING_ATTEMPTS
+                )
+                .OrderBy(m => m.AddedOn)
+                // Limit messages to stop excessive memory usage - this could be if the
+                // scheduled job stops and messages build up for example
+                .Take(MAX_MESSAGES_TO_PROCESS)
+                .ToListAsync();
+
+            return results.Select(MapToOutboxModel).ToList();
+        }
+
+        public async Task DeleteMessageAsync(int id)
+        {
+            var result = await _entryContext.DailyEntryOutboxMessages.FindAsync(id);
+
+            if (result != null)
+            {
+                _entryContext.DailyEntryOutboxMessages.Remove(result);
+                await _entryContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Optional<OutboxDailyEntry>> GetMessageAsync(int id)
+        {
+            var result = await _entryContext.DailyEntryOutboxMessages.FindAsync(id);
+
+            if (result == null)
+            {
+                return Optional<OutboxDailyEntry>.None();
+            }
+
+            return Optional<OutboxDailyEntry>.Some(MapToOutboxModel(result));
+        }
+
+        Task<IReadOnlyCollection<OutboxDailyEntry>> IDailyEntryOutboxRepository.GetFailedMessagesAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

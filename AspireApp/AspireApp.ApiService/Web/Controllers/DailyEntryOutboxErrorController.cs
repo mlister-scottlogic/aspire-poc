@@ -29,23 +29,33 @@ namespace AspireApp.ApiService.Web.Controllers
         {
             var result = await _outboxAdminService.GetFailedMessageAsync(id);
 
-            return Ok(ToContract(result));
+            return result.Match<IActionResult>((m) => Ok(ToContract(m)), NotFound);
         }
 
         [HttpPost("{id}/retry")]
         public async Task<IActionResult> RetryMessage([FromRoute] int id)
         {
-            await _outboxAdminService.RetryMessageAsync(id);
+            var result = await _outboxAdminService.RetryMessageAsync(id);
 
-            return Accepted();
+            if (result)
+            {
+                return Accepted();
+            }
+
+            return NotFound();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById([FromRoute] int id)
         {
-            await _outboxAdminService.DeleteMessageAsync(id);
+            var result = await _outboxAdminService.DeleteMessageAsync(id);
 
-            return Accepted();
+            if (result)
+            {
+                return Accepted();
+            }
+
+            return NotFound();
         }
 
         private Contracts.FailedOutboxMessage ToContract(Domain.Models.FailedOutboxMessage message)

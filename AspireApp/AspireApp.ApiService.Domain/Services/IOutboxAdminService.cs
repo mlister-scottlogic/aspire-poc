@@ -1,4 +1,5 @@
-﻿using AspireApp.ApiService.Domain.Models;
+﻿using AspireApp.ApiService.Common;
+using AspireApp.ApiService.Domain.Models;
 
 namespace AspireApp.ApiService.Domain.Services
 {
@@ -6,10 +7,10 @@ namespace AspireApp.ApiService.Domain.Services
     {
         Task<IReadOnlyCollection<FailedOutboxMessage>> GetFailedMessagesAsync();
 
-        Task<FailedOutboxMessage> GetFailedMessageAsync(int id);
+        Task<Optional<FailedOutboxMessage>> GetFailedMessageAsync(int id);
 
-        Task RetryMessageAsync(int id);
+        Task<bool> RetryMessageAsync(int id);
 
-        Task DeleteMessageAsync(int id);
+        Task<bool> DeleteMessageAsync(int id);
     }
 }
