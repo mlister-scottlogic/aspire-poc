@@ -2,7 +2,7 @@
 
 namespace AspireApp.ApiService.Web.Controllers
 {
-    [Route("entries/outbox-failures")]
+    [Route("outbox-failures/entries")]
     [ApiController]
     public class DailyEntryOutboxErrorController : Controller
     {
