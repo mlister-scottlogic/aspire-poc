@@ -8,11 +8,11 @@ namespace AspireApp.ApiService.Domain.Models
 
         public string? Description { get; init; }
 
-        public DateOnly Date { get; init; }
+        public required DateOnly Date { get; init; }
 
         public required decimal Distance { get; init; }
 
-        public DistanceUnit DistanceUnit { get; init; }
+        public required DistanceUnit DistanceUnit { get; init; }
     }
 
     public class DailyEntryWithId : DailyEntry
