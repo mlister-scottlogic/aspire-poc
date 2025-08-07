@@ -25,7 +25,7 @@
   - This allows for easier referencing where there would usually be circular references
   - This also allows projects to be swapped out, e.g. Data could have a Data.Core (Postgres), then if a swap was needed to SQLServer a Data.SqlServer could be written and swapped in while both exist using a feature flag at startup time
   - Classes in Core projects should be at most internal!
-- Optional<T> if something may not exist Optional<T> should be used, the only way to get the results out here is to call `Match` with a `success` and `failure` function meaning 
+- Optional<T> if something may not exist Optional<T> should be used, the only way to get the results out here is to call `Match` with a `success` and `failure` function meaning you must handle both cases
 
 
 ### Blazor frontend
