@@ -7,6 +7,7 @@
 - Timing logger decorator
 - Deployment?
 - Frontend improvements
+- Swagger generation on build + test
 
 # Done
 
