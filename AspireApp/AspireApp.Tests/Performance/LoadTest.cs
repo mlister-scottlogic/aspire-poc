@@ -15,7 +15,15 @@ namespace AspireApp.Tests.Performance
         [OneTimeSetUp]
         public async Task Setup()
         {
+            var cancellationToken = TestContext.CurrentContext.CancellationToken;
+
             _application = await StartupAppAsync();
+
+            using var httpClient = _application.CreateHttpClient("apiservice");
+
+            await _application
+                .ResourceNotifications.WaitForResourceHealthyAsync("apiservice", cancellationToken)
+                .WaitAsync(DefaultTimeout, cancellationToken);
         }
 
         [Test]
@@ -25,6 +33,7 @@ namespace AspireApp.Tests.Performance
 
             using var httpClient = _application.CreateHttpClient("apiservice");
 
+            // Check healthy before starting test even though we already wait for it in Setup
             await _application
                 .ResourceNotifications.WaitForResourceHealthyAsync("apiservice", cancellationToken)
                 .WaitAsync(DefaultTimeout, cancellationToken);
