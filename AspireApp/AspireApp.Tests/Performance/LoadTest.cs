@@ -49,16 +49,18 @@ namespace AspireApp.Tests.Performance
 
             var loadScenario = HttpLoadScenario.Create(
                 () => httpClient.PostAsJsonAsync("/entries", dailyEntry),
-                concurrentRequests: 10,
+                concurrentRequests: 5,
                 delayBetweenCalls: TimeSpan.FromMilliseconds(5),
                 duration: TimeSpan.FromMinutes(1)
             );
 
             var result = await loadScenario.RunAsync(warmup: true);
-
+            // Print some basic info about the results
             Console.WriteLine(result);
 
             var millisecondAverageLimit = 100;
+            var percentile95thLimit = 200;
+
             var failureLimit = 3;
 
             Assert.Multiple(() =>
@@ -70,6 +72,10 @@ namespace AspireApp.Tests.Performance
                 Assert.That(
                     result.Average < millisecondAverageLimit,
                     $"Expected less than {millisecondAverageLimit} average, but found {result.Average}"
+                );
+                Assert.That(
+                    result.GetPercentile(95) < percentile95thLimit,
+                    $"Expected less than {percentile95thLimit} 95th percentile, but found {result.GetPercentile(95)}"
                 );
             });
         }

@@ -40,7 +40,7 @@
                 + $"\n Average: {Average}ms"
                 + $"\n Median: {Median}ms"
                 + $"\n 95th percentile: {Top95}ms"
-                + $"\n Max: {Max}ms";
+                + $"\n 99th percentile: {GetPercentile(99)}ms";
         }
     }
 }
