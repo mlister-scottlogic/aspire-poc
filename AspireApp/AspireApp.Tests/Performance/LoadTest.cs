@@ -1,13 +1,14 @@
-﻿using Aspire.Hosting;
+﻿using System.Net.Http.Json;
+using Aspire.Hosting;
 using AspireApp.ApiService.Contracts;
+using AspireApp.Tests.Performance.LoadFramework;
 using Microsoft.Extensions.Logging;
-using System.Net.Http.Json;
 
 namespace AspireApp.Tests.Performance
 {
     public class LoadTest : IDisposable
     {
-        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(30);
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
 
         private DistributedApplication _application;
 
@@ -37,9 +38,27 @@ namespace AspireApp.Tests.Performance
                 DistanceUnit = ApiService.Domain.Enums.DistanceUnit.Miles,
             };
 
-            var response = await httpClient.PostAsJsonAsync("/entries", dailyEntry);
+            var loadScenario = HttpLoadScenario.Create(() =>
+                httpClient.PostAsJsonAsync("/entries", dailyEntry)
+            );
 
-            response.EnsureSuccessStatusCode();
+            var result = await loadScenario.RunAsync();
+
+            var millisecondAverageLimit = 100;
+            var failureLimit = 3;
+
+            Assert.That(
+                result.Failures < failureLimit,
+                $"Expected fewer than {failureLimit} failures, but found {result.Failures}"
+            );
+            Assert.That(
+                result.Average < millisecondAverageLimit,
+                $"Expected less than {millisecondAverageLimit} average, but found {result.Average}"
+            );
+
+            //var response = await httpClient.PostAsJsonAsync("/entries", dailyEntry);
+
+            //response.EnsureSuccessStatusCode();
         }
 
         private static async Task<DistributedApplication> StartupAppAsync()
