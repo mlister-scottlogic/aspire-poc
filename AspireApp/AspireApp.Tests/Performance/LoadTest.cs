@@ -74,8 +74,8 @@ namespace AspireApp.Tests.Performance
                     $"Expected less than {millisecondAverageLimit} average, but found {result.Average}"
                 );
                 Assert.That(
-                    result.GetPercentile(95) < percentile95thLimit,
-                    $"Expected less than {percentile95thLimit} 95th percentile, but found {result.GetPercentile(95)}"
+                    result.Top95 < percentile95thLimit,
+                    $"Expected less than {percentile95thLimit} 95th percentile, but found {result.Top95}"
                 );
             });
         }
