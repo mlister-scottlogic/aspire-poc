@@ -50,14 +50,16 @@ namespace AspireApp.Tests.Performance.LoadFramework
 
         public async Task<ScenarioResult> RunAsync()
         {
-            var result = await CreateSingleThread();
+            var tasks = Enumerable.Range(0, ConcurrentThreads).Select(i => CreateSingleTask());
 
-            var scenarioResult = new ScenarioResult(result);
+            var results = await Task.WhenAll(tasks);
+
+            var scenarioResult = new ScenarioResult(results);
 
             return scenarioResult;
         }
 
-        private async Task<IReadOnlyCollection<TimedResult>> CreateSingleThread()
+        private async Task<IReadOnlyCollection<TimedResult>> CreateSingleTask()
         {
             var results = new List<TimedResult>(128);
 

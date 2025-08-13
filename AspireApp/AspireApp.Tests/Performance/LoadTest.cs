@@ -38,11 +38,15 @@ namespace AspireApp.Tests.Performance
                 DistanceUnit = ApiService.Domain.Enums.DistanceUnit.Miles,
             };
 
-            var loadScenario = HttpLoadScenario.Create(() =>
-                httpClient.PostAsJsonAsync("/entries", dailyEntry)
+            var loadScenario = HttpLoadScenario.Create(
+                () => httpClient.PostAsJsonAsync("/entries", dailyEntry),
+                concurrentRequests: 3
             );
 
             var result = await loadScenario.RunAsync();
+
+            Console.WriteLine($"Failures: {result.Failures}");
+            Console.WriteLine($"Average: {result.Average}");
 
             var millisecondAverageLimit = 100;
             var failureLimit = 3;
@@ -55,10 +59,6 @@ namespace AspireApp.Tests.Performance
                 result.Average < millisecondAverageLimit,
                 $"Expected less than {millisecondAverageLimit} average, but found {result.Average}"
             );
-
-            //var response = await httpClient.PostAsJsonAsync("/entries", dailyEntry);
-
-            //response.EnsureSuccessStatusCode();
         }
 
         private static async Task<DistributedApplication> StartupAppAsync()
