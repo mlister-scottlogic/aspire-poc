@@ -40,14 +40,14 @@ namespace AspireApp.Tests.Performance
 
             var loadScenario = HttpLoadScenario.Create(
                 () => httpClient.PostAsJsonAsync("/entries", dailyEntry),
-                concurrentRequests: 5,
-                delayBetweenCalls: TimeSpan.FromMilliseconds(10)
+                concurrentRequests: 10,
+                delayBetweenCalls: TimeSpan.FromMilliseconds(5),
+                duration: TimeSpan.FromMinutes(1)
             );
 
-            var result = await loadScenario.RunAsync();
+            var result = await loadScenario.RunAsync(warmup: true);
 
-            Console.WriteLine($"Failures: {result.Failures}");
-            Console.WriteLine($"Average: {result.Average}");
+            Console.WriteLine(result);
 
             var millisecondAverageLimit = 100;
             var failureLimit = 3;
