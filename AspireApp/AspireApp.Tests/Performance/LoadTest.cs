@@ -52,14 +52,17 @@ namespace AspireApp.Tests.Performance
             var millisecondAverageLimit = 100;
             var failureLimit = 3;
 
-            Assert.That(
-                result.Failures < failureLimit,
-                $"Expected fewer than {failureLimit} failures, but found {result.Failures}"
-            );
-            Assert.That(
-                result.Average < millisecondAverageLimit,
-                $"Expected less than {millisecondAverageLimit} average, but found {result.Average}"
-            );
+            Assert.Multiple(() =>
+            {
+                Assert.That(
+                    result.Failures < failureLimit,
+                    $"Expected fewer than {failureLimit} failures, but found {result.Failures}"
+                );
+                Assert.That(
+                    result.Average < millisecondAverageLimit,
+                    $"Expected less than {millisecondAverageLimit} average, but found {result.Average}"
+                );
+            });
         }
 
         private static async Task<DistributedApplication> StartupAppAsync()
