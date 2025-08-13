@@ -68,14 +68,14 @@ namespace AspireApp.Tests.Performance.LoadFramework
 
             while (overallTimer.Elapsed < Duration)
             {
-                var individualTimer = Stopwatch.StartNew();
+                var startTime = Stopwatch.GetTimestamp();
                 var result = await TimedScenario();
-                individualTimer.Stop();
+                var duration = Stopwatch.GetElapsedTime(startTime);
 
                 results.Add(
                     new TimedResult()
                     {
-                        Duration = individualTimer.Elapsed.TotalMilliseconds,
+                        Duration = duration.TotalMilliseconds,
                         HttpStatus = result.StatusCode,
                         Success = result.IsSuccessStatusCode,
                     }

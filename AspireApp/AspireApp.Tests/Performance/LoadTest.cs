@@ -1,8 +1,8 @@
-﻿using System.Net.Http.Json;
-using Aspire.Hosting;
+﻿using Aspire.Hosting;
 using AspireApp.ApiService.Contracts;
 using AspireApp.Tests.Performance.LoadFramework;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Json;
 
 namespace AspireApp.Tests.Performance
 {
@@ -40,7 +40,8 @@ namespace AspireApp.Tests.Performance
 
             var loadScenario = HttpLoadScenario.Create(
                 () => httpClient.PostAsJsonAsync("/entries", dailyEntry),
-                concurrentRequests: 3
+                concurrentRequests: 5,
+                delayBetweenCalls: TimeSpan.FromMilliseconds(10)
             );
 
             var result = await loadScenario.RunAsync();
