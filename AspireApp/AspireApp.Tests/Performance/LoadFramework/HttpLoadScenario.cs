@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Diagnostics;
 
 namespace AspireApp.Tests.Performance.LoadFramework
 {
@@ -8,10 +8,10 @@ namespace AspireApp.Tests.Performance.LoadFramework
         private readonly TimeSpan Duration;
         private readonly TimeSpan DelayBetweenCalls;
 
-        private readonly Func<Task<HttpResponse>> TimedScenario;
+        private readonly Func<Task<HttpResponseMessage>> TimedScenario;
 
         private HttpLoadScenario(
-            Func<Task<HttpResponse>> timedScenario,
+            Func<Task<HttpResponseMessage>> timedScenario,
             int concurrentThreads,
             TimeSpan duration,
             TimeSpan delayBetweenCalls
@@ -24,7 +24,7 @@ namespace AspireApp.Tests.Performance.LoadFramework
         }
 
         public static HttpLoadScenario Create(
-            Func<Task<HttpResponse>> timedScenario,
+            Func<Task<HttpResponseMessage>> timedScenario,
             int concurrentRequests = 1,
             TimeSpan? duration = null,
             TimeSpan? delayBetweenCalls = null
@@ -48,11 +48,61 @@ namespace AspireApp.Tests.Performance.LoadFramework
             );
         }
 
-        public async Task<int> RunAsync()
+        public async Task<ScenarioResult> RunAsync()
         {
-            var result = await TimedScenario();
+            var result = await CreateSingleThread();
 
-            return 0;
+            var scenarioResult = new ScenarioResult(result);
+
+            return scenarioResult;
         }
+
+        private async Task<IReadOnlyCollection<TimedResult>> CreateSingleThread()
+        {
+            var results = new List<TimedResult>(128);
+
+            var overallTimer = new Stopwatch();
+            overallTimer.Start();
+
+            while (overallTimer.Elapsed < Duration)
+            {
+                var individualTimer = Stopwatch.StartNew();
+                var result = await TimedScenario();
+                individualTimer.Stop();
+
+                results.Add(
+                    new TimedResult()
+                    {
+                        Duration = individualTimer.Elapsed.TotalMilliseconds,
+                        HttpStatus = result.StatusCode,
+                        Success = result.IsSuccessStatusCode,
+                    }
+                );
+
+                await Task.Delay(DelayBetweenCalls);
+            }
+
+            return results;
+        }
+    }
+
+    public class ScenarioResult
+    {
+        private readonly IReadOnlyCollection<TimedResult> _individualResults;
+
+        public ScenarioResult(params IReadOnlyCollection<TimedResult>[] individualResults)
+        {
+            _individualResults = individualResults.SelectMany(r => r).ToList();
+        }
+
+        public int Failures => _individualResults.Count(r => !r.Success);
+        public double Average => _individualResults.Average(r => r.Duration);
+    }
+
+    public struct TimedResult
+    {
+        public required bool Success { get; set; }
+        public required double Duration { get; set; }
+        public required HttpStatusCode HttpStatus { get; set; }
     }
 }
