@@ -21,7 +21,8 @@
                 .ToList();
         }
 
-        public int Failures => _orderedResults.Count(r => !r.Success);
+        public double FailureRate =>
+            _orderedResults.Count(r => !r.Success) / (double)_orderedResults.Count;
         public double Average => Math.Round(_orderedResults.Average(r => r.Duration), 2);
 
         public double Min => _orderedResults.First().Duration;
@@ -36,7 +37,7 @@
         public override string? ToString()
         {
             return $"Test took {Math.Round(_totalDuration.TotalSeconds, 0)} seconds to send {_orderedResults.Count} requests with these happening in {_concurrentRequests} parallel streams."
-                + $"\n Failures: {Failures}"
+                + $"\n Failure rate: {FailureRate}%"
                 + $"\n Average: {Average}ms"
                 + $"\n Median: {Median}ms"
                 + $"\n 95th percentile: {Top95}ms"

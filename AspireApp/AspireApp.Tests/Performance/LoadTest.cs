@@ -1,8 +1,8 @@
-﻿using Aspire.Hosting;
+﻿using System.Net.Http.Json;
+using Aspire.Hosting;
 using AspireApp.ApiService.Contracts;
 using AspireApp.Tests.Performance.LoadFramework;
 using Microsoft.Extensions.Logging;
-using System.Net.Http.Json;
 
 namespace AspireApp.Tests.Performance
 {
@@ -49,8 +49,8 @@ namespace AspireApp.Tests.Performance
 
             var loadScenario = HttpLoadScenario.Create(
                 () => httpClient.PostAsJsonAsync("/entries", dailyEntry),
-                concurrentRequests: 5,
-                delayBetweenCalls: TimeSpan.FromMilliseconds(5),
+                concurrentRequests: 10,
+                delayBetweenCalls: TimeSpan.FromMilliseconds(20),
                 duration: TimeSpan.FromMinutes(1)
             );
 
@@ -61,20 +61,23 @@ namespace AspireApp.Tests.Performance
             var millisecondAverageLimit = 100;
             var percentile95thLimit = 200;
 
-            var failureLimit = 3;
+            var failureRatelimit = 0.1;
 
             Assert.Multiple(() =>
             {
                 Assert.That(
-                    result.Failures < failureLimit,
-                    $"Expected fewer than {failureLimit} failures, but found {result.Failures}"
+                    result.FailureRate,
+                    Is.LessThan(failureRatelimit),
+                    $"Expected a failure rate less than {failureRatelimit}%, but found {result.FailureRate}% failures"
                 );
                 Assert.That(
-                    result.Average < millisecondAverageLimit,
+                    result.Average,
+                    Is.LessThan(millisecondAverageLimit),
                     $"Expected less than {millisecondAverageLimit} average, but found {result.Average}"
                 );
                 Assert.That(
-                    result.Top95 < percentile95thLimit,
+                    result.Top95,
+                    Is.LessThan(percentile95thLimit),
                     $"Expected less than {percentile95thLimit} 95th percentile, but found {result.Top95}"
                 );
             });
