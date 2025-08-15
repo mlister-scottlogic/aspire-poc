@@ -3,6 +3,7 @@ using Aspire.Hosting;
 using AspireApp.ApiService.Contracts;
 using AspireApp.Tests.Performance.LoadFramework;
 using Microsoft.Extensions.Logging;
+using Shouldly;
 
 namespace AspireApp.Tests.Performance
 {
@@ -60,27 +61,13 @@ namespace AspireApp.Tests.Performance
 
             var millisecondAverageLimit = 100;
             var percentile95thLimit = 200;
-
             var failureRatelimit = 0.1;
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(
-                    result.FailureRate,
-                    Is.LessThan(failureRatelimit),
-                    $"Expected a failure rate less than {failureRatelimit}%, but found {result.FailureRate}% failures"
-                );
-                Assert.That(
-                    result.Average,
-                    Is.LessThan(millisecondAverageLimit),
-                    $"Expected less than {millisecondAverageLimit} average, but found {result.Average}"
-                );
-                Assert.That(
-                    result.Top95,
-                    Is.LessThan(percentile95thLimit),
-                    $"Expected less than {percentile95thLimit} 95th percentile, but found {result.Top95}"
-                );
-            });
+            result.ShouldSatisfyAllConditions(
+                () => result.FailureRate.ShouldBeLessThan(failureRatelimit),
+                () => result.Average.ShouldBeLessThan(millisecondAverageLimit),
+                () => result.Top95.ShouldBeLessThan(percentile95thLimit)
+            );
         }
 
         private static async Task<DistributedApplication> StartupAppAsync()
