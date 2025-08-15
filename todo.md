@@ -1,7 +1,6 @@
 # TODO
 
 - End to end tests
-- Perf tests at build/test stage
 - Autogen diagram of how projects reference each other
 - Build time rules on project referencing
 - Timing logger decorator
@@ -17,3 +16,4 @@
 - Optional<T>
 - Transactional outbox admin API
 - CSharpier
+- Perf tests at build/test stage
