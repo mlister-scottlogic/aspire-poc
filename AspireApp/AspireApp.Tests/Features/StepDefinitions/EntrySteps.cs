@@ -1,5 +1,7 @@
 ﻿using AspireApp.ApiService.Contracts;
 using Reqnroll;
+using Shouldly;
+using System.Net.Http.Json;
 
 namespace AspireApp.Tests.Features.StepDefinitions
 {
@@ -29,15 +31,25 @@ namespace AspireApp.Tests.Features.StepDefinitions
         }
 
         [When("the entries request is sent")]
-        public void WhenTheEntriesRequestIsSent()
+        public async Task WhenTheEntriesRequestIsSent()
         {
             var request = _scenarioContext.Get<DailyEntry>("request");
+
+            var httpClient = _scenarioContext.Get<HttpClient>("httpclient");
+
+            var response = await httpClient.PostAsJsonAsync("/entries", request);
+
+            _scenarioContext["response"] = response;
         }
 
-        [Then("the entries request is successful with a status code of {string}")]
-        public void ThenTheEntriesRequestIsSuccessfulWithAStatusCodeOf(string p0)
+        [Then("the entries request is successful with a status code of {int}")]
+        public void ThenTheEntriesRequestIsSuccessfulWithAStatusCodeOf(int statusCode)
         {
-            throw new PendingStepException();
+            var response = _scenarioContext.Get<HttpResponseMessage>("response");
+
+            response.IsSuccessStatusCode.ShouldBeTrue();
+
+            ((int)response.StatusCode).ShouldBe(statusCode);
         }
 
         [Then("the data is stored in the database")]

@@ -126,13 +126,7 @@ this.ScenarioInitialize(scenarioInfo);
  await testRunner.WhenAsync("the entries request is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 6
- await testRunner.ThenAsync("the entries request is successful with a status code of \"200\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 7
- await testRunner.AndAsync("the data is stored in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 8
- await testRunner.AndAsync("there is an event on the downstream queue", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.ThenAsync("the entries request is successful with a status code of 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
