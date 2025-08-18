@@ -6,16 +6,16 @@
     <WarningsAsErrors>true</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Aspire.Npgsql" Version="9.4.0" />
-    <PackageReference Include="Aspire.RabbitMQ.Client.v7" Version="9.4.0" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.20" />
+    <PackageReference Include="Aspire.Npgsql" Version="9.4.1" />
+    <PackageReference Include="Aspire.RabbitMQ.Client.v7" Version="9.4.1" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.21" />
     <PackageReference Include="Hangfire.InMemory" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.7">
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Scalar.AspNetCore" Version="2.6.4" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.6.9" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AspireApp.ApiService.Contracts\AspireApp.ApiService.Contracts.csproj" />
