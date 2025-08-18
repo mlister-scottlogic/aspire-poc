@@ -1,28 +1,22 @@
-﻿using AspireApp.Tests.Features.Hooks;
+﻿using AspireApp.ApiService.Contracts;
 using Reqnroll;
 
 namespace AspireApp.Tests.Features.StepDefinitions
 {
     [Binding]
-    internal class EntriesSteps
+    internal class EntrySteps
     {
-        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
+        private ScenarioContext _scenarioContext;
+
+        public EntrySteps(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
 
         [Given("some request")]
-        public async Task GivenSomeRequest()
+        public void GivenSomeRequest()
         {
-            var cancellationToken = TestContext.CurrentContext.CancellationToken;
-
-            using var httpClient = ApiInstance.App.CreateHttpClient("apiservice");
-
-            await ApiInstance
-                .App.ResourceNotifications.WaitForResourceHealthyAsync(
-                    "apiservice",
-                    cancellationToken
-                )
-                .WaitAsync(DefaultTimeout, cancellationToken);
-
-            Console.WriteLine("App healthy");
+            var request = _scenarioContext.Get<DailyEntry>("request");
         }
 
         [When("the entries request is sent")]

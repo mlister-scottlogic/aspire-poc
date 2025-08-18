@@ -1,0 +1,39 @@
+﻿using Reqnroll;
+
+namespace AspireApp.Tests.Features.Hooks
+{
+    [Binding]
+    internal class EntryHooks
+    {
+        private ScenarioContext _scenarioContext;
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
+
+        public EntryHooks(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
+        [BeforeScenario]
+        public async Task BeforeScenario()
+        {
+            // Check app is healthy
+            var cancellationToken = TestContext.CurrentContext.CancellationToken;
+
+            using var httpClient = ApiInstance.App.CreateHttpClient("apiservice");
+
+            await ApiInstance
+                .App.ResourceNotifications.WaitForResourceHealthyAsync(
+                    "apiservice",
+                    cancellationToken
+                )
+                .WaitAsync(DefaultTimeout, cancellationToken);
+
+            Console.WriteLine("App healthy");
+
+            // Setup Scenario Context
+            _scenarioContext.Add("httpclient", httpClient);
+            _scenarioContext.Add("request", null);
+            _scenarioContext.Add("response", null);
+        }
+    }
+}
