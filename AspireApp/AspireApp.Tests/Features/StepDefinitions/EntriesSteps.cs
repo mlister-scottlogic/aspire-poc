@@ -1,14 +1,28 @@
-﻿using Reqnroll;
+﻿using AspireApp.Tests.Features.Hooks;
+using Reqnroll;
 
 namespace AspireApp.Tests.Features.StepDefinitions
 {
     [Binding]
     internal class EntriesSteps
     {
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
+
         [Given("some request")]
-        public void GivenSomeRequest()
+        public async Task GivenSomeRequest()
         {
-            throw new PendingStepException();
+            var cancellationToken = TestContext.CurrentContext.CancellationToken;
+
+            using var httpClient = ApiInstance.App.CreateHttpClient("apiservice");
+
+            await ApiInstance
+                .App.ResourceNotifications.WaitForResourceHealthyAsync(
+                    "apiservice",
+                    cancellationToken
+                )
+                .WaitAsync(DefaultTimeout, cancellationToken);
+
+            Console.WriteLine("App healthy");
         }
 
         [When("the entries request is sent")]
