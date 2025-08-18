@@ -33,8 +33,4 @@
     <Using Include="Aspire.Hosting.Testing" />
     <Using Include="NUnit.Framework" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Features\Entries\" />
-    <Folder Include="Features\StepDefinitions\" />
-  </ItemGroup>
 </Project>
