@@ -1,5 +1,4 @@
-﻿using AspireApp.ApiService.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AspireApp.ApiService.Contracts
 {
@@ -17,6 +16,12 @@ namespace AspireApp.ApiService.Contracts
         public decimal? Distance { get; set; }
 
         public DistanceUnit? DistanceUnit { get; set; }
+    }
+
+    public enum DistanceUnit
+    {
+        Miles,
+        Kilometers,
     }
 
     public class DailyEntryWithId : DailyEntry

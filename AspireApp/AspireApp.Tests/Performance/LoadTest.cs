@@ -1,9 +1,9 @@
-﻿using System.Net.Http.Json;
-using Aspire.Hosting;
+﻿using Aspire.Hosting;
 using AspireApp.ApiService.Contracts;
 using AspireApp.Tests.Performance.LoadFramework;
 using Microsoft.Extensions.Logging;
 using Shouldly;
+using System.Net.Http.Json;
 
 namespace AspireApp.Tests.Performance
 {
@@ -45,7 +45,7 @@ namespace AspireApp.Tests.Performance
                 Description = "Something else",
                 Date = DateOnly.Parse("2020-02-01"),
                 Distance = 10.2m,
-                DistanceUnit = ApiService.Domain.Enums.DistanceUnit.Miles,
+                DistanceUnit = DistanceUnit.Miles,
             };
 
             var loadScenario = HttpLoadScenario.Create(

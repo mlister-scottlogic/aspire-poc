@@ -5,7 +5,4 @@
     <Nullable>enable</Nullable>
     <WarningsAsErrors>true</WarningsAsErrors>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AspireApp.ApiService.Domain\AspireApp.ApiService.Domain.csproj" />
-  </ItemGroup>
 </Project>
