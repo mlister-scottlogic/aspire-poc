@@ -16,13 +16,22 @@ namespace AspireApp.Tests.Features.StepDefinitions
         [Given("some request")]
         public void GivenSomeRequest()
         {
-            var request = _scenarioContext.Get<DailyEntry>("request");
+            var request = new DailyEntry()
+            {
+                Title = "Day 1",
+                Description = "I ate the porridge. It was too salty.",
+                Date = DateOnly.Parse("2025-01-01"),
+                Distance = 10.2m,
+                DistanceUnit = DistanceUnit.Kilometers,
+            };
+
+            _scenarioContext["request"] = request;
         }
 
         [When("the entries request is sent")]
         public void WhenTheEntriesRequestIsSent()
         {
-            throw new PendingStepException();
+            var request = _scenarioContext.Get<DailyEntry>("request");
         }
 
         [Then("the entries request is successful with a status code of {string}")]
