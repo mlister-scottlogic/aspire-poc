@@ -15,19 +15,39 @@ namespace AspireApp.Tests.Features.StepDefinitions
             _scenarioContext = scenarioContext;
         }
 
-        [Given("some request")]
-        public void GivenSomeRequest()
+        [Given("an entries request")]
+        public void GivenAnEntriesRequest(DataTable dataTable)
         {
-            var request = new DailyEntry()
-            {
-                Title = "Day 1",
-                Description = "I ate the porridge. It was too salty.",
-                Date = DateOnly.Parse("2025-01-01"),
-                Distance = 10.2m,
-                DistanceUnit = DistanceUnit.Kilometers,
-            };
+            var dailyEntryData = dataTable.CreateInstance<DailyEntryTable>();
+
+            var request = MapTableToContract(dailyEntryData);
 
             _scenarioContext.SetRequest(request);
+        }
+
+        private class DailyEntryTable
+        {
+            public string? Title { get; set; }
+
+            public string? Description { get; set; }
+
+            public string? Date { get; set; }
+
+            public decimal? Distance { get; set; }
+
+            public DistanceUnit? DistanceUnit { get; set; }
+        }
+
+        private static DailyEntry MapTableToContract(DailyEntryTable dailyEntryTable)
+        {
+            return new DailyEntry()
+            {
+                Title = dailyEntryTable.Title,
+                Description = dailyEntryTable.Description,
+                Date = dailyEntryTable.Date != null ? DateOnly.Parse(dailyEntryTable.Date!) : null,
+                Distance = dailyEntryTable.Distance,
+                DistanceUnit = dailyEntryTable.DistanceUnit,
+            };
         }
 
         [When("the entries request is sent")]

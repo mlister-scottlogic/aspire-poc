@@ -119,13 +119,25 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                            "Title",
+                            "Description",
+                            "Date",
+                            "Distance",
+                            "DistanceUnit"});
+                table1.AddRow(new string[] {
+                            "Day 1",
+                            "The porridge was too hot",
+                            "2020-02-01",
+                            "10.5",
+                            "0"});
 #line 4
- await testRunner.GivenAsync("some request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("an entries request", ((string)(null)), table1, "Given ");
 #line hidden
-#line 5
+#line 7
  await testRunner.WhenAsync("the entries request is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 6
+#line 8
  await testRunner.ThenAsync("the entries request is successful with a status code of 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
