@@ -4,7 +4,7 @@ using Reqnroll;
 namespace AspireApp.Tests.Features.Hooks
 {
     [Binding]
-    internal class TestRun
+    internal class TestRunHooks
     {
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
 
