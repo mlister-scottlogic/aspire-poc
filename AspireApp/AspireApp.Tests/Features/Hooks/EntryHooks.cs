@@ -1,4 +1,5 @@
-﻿using Reqnroll;
+﻿using AspireApp.Tests.Features.StepDefinitions;
+using Reqnroll;
 
 namespace AspireApp.Tests.Features.Hooks
 {
@@ -31,9 +32,7 @@ namespace AspireApp.Tests.Features.Hooks
             Console.WriteLine("App healthy");
 
             // Setup Scenario Context
-            _scenarioContext.Add("httpclient", httpClient);
-            _scenarioContext.Add("request", null);
-            _scenarioContext.Add("response", null);
+            _scenarioContext.SetHttpClient(httpClient);
         }
     }
 }

@@ -27,25 +27,25 @@ namespace AspireApp.Tests.Features.StepDefinitions
                 DistanceUnit = DistanceUnit.Kilometers,
             };
 
-            _scenarioContext["request"] = request;
+            _scenarioContext.SetRequest(request);
         }
 
         [When("the entries request is sent")]
         public async Task WhenTheEntriesRequestIsSent()
         {
-            var request = _scenarioContext.Get<DailyEntry>("request");
+            var request = _scenarioContext.GetRequest();
 
-            var httpClient = _scenarioContext.Get<HttpClient>("httpclient");
+            var httpClient = _scenarioContext.GetHttpClient();
 
             var response = await httpClient.PostAsJsonAsync("/entries", request);
 
-            _scenarioContext["response"] = response;
+            _scenarioContext.SetResponse(response);
         }
 
         [Then("the entries request is successful with a status code of {int}")]
         public void ThenTheEntriesRequestIsSuccessfulWithAStatusCodeOf(int statusCode)
         {
-            var response = _scenarioContext.Get<HttpResponseMessage>("response");
+            var response = _scenarioContext.GetResponse();
 
             response.IsSuccessStatusCode.ShouldBeTrue();
 
