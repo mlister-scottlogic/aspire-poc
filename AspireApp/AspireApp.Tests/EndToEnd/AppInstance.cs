@@ -1,6 +1,6 @@
 ﻿using Aspire.Hosting;
 using AspireApp.Tests.EndToEnd.Database;
-using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace AspireApp.Tests.EndToEnd
 {
@@ -17,14 +17,13 @@ namespace AspireApp.Tests.EndToEnd
                 );
             }
 
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
             var connectionString = await App.GetConnectionStringAsync("postgresdb");
 
-            var options = new DbContextOptionsBuilder<EntryContext>();
-            options.UseNpgsql(connectionString);
+            var dataSource = NpgsqlDataSource.Create(connectionString!);
 
-            var context = new EntryContext(options.Options);
-
-            var repo = new DailyEntryRepository(context);
+            var repo = new DailyEntryRepository(dataSource);
 
             return repo;
         }

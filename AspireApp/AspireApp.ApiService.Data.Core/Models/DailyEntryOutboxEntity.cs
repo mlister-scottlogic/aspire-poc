@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspireApp.ApiService.Data.Core.Models
 {
-    [Table("DailyEntryMessages", Schema = "outbox")]
+    [Table("daily_entry_messages", Schema = "outbox")]
     internal class DailyEntryOutboxEntity : IOutboxEntity
     {
         [Key]

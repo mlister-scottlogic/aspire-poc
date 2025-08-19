@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspireApp.ApiService.Data.Core.Models
 {
-    [Table("DailyEntries", Schema = "apiservice")]
+    [Table("daily_entries", Schema = "apiservice")]
     internal class DailyEntryEntity
     {
         [Key]

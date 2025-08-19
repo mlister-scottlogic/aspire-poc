@@ -1,24 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Dapper;
+using Npgsql;
+using System.ComponentModel.DataAnnotations;
 
 namespace AspireApp.Tests.EndToEnd.Database
 {
     public class DailyEntryRepository
     {
-        private readonly EntryContext _entryContext;
+        private readonly NpgsqlDataSource _dataSource;
 
-        public DailyEntryRepository(EntryContext entryContext)
+        public DailyEntryRepository(NpgsqlDataSource dataSource)
         {
-            _entryContext = entryContext;
+            _dataSource = dataSource;
         }
 
         public async Task<DailyEntryEntity?> GetDailyEntryByIdAsync(Guid id)
         {
-            return await _entryContext.DailyEntries.FindAsync(id);
+            await using var connection = await _dataSource.OpenConnectionAsync();
+
+            return await connection.QueryFirstOrDefaultAsync<DailyEntryEntity>(
+                $"SELECT * FROM apiservice.daily_entries WHERE id = '{id}'"
+            );
         }
     }
 
-    [Table("DailyEntries", Schema = "apiservice")]
     public class DailyEntryEntity
     {
         [Key]
@@ -28,7 +32,7 @@ namespace AspireApp.Tests.EndToEnd.Database
 
         public string? Description { get; set; }
 
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
 
         public decimal Distance { get; set; }
 

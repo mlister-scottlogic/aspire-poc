@@ -22,6 +22,7 @@ namespace AspireApp.ApiService.Data.Core.ServiceStartup
             serviceCollection.AddTransient<ITransactionSaver, TransactionSaver>();
             serviceCollection.AddDbContextPool<EntryContext>(opt =>
                 opt.UseNpgsql(configuration.GetConnectionString("postgresdb"))
+                    .UseSnakeCaseNamingConvention()
             );
             return serviceCollection;
         }
