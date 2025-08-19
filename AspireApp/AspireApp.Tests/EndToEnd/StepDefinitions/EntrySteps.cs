@@ -1,9 +1,9 @@
-﻿using AspireApp.ApiService.Contracts;
+﻿using System.Net.Http.Json;
+using AspireApp.ApiService.Contracts;
 using Reqnroll;
 using Shouldly;
-using System.Net.Http.Json;
 
-namespace AspireApp.Tests.Features.StepDefinitions
+namespace AspireApp.Tests.EndToEnd.StepDefinitions
 {
     [Binding]
     internal class EntrySteps

@@ -1,7 +1,7 @@
-﻿using AspireApp.Tests.Features.StepDefinitions;
+﻿using AspireApp.Tests.EndToEnd.StepDefinitions;
 using Reqnroll;
 
-namespace AspireApp.Tests.Features.Hooks
+namespace AspireApp.Tests.EndToEnd.Hooks
 {
     [Binding]
     internal class EntryHooks

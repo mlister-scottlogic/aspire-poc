@@ -1,7 +1,7 @@
 ﻿using AspireApp.ApiService.Contracts;
 using Reqnroll;
 
-namespace AspireApp.Tests.Features.StepDefinitions
+namespace AspireApp.Tests.EndToEnd.StepDefinitions
 {
     public static class ScenarioContextExtensions
     {

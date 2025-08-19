@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Reqnroll;
 
-namespace AspireApp.Tests.Features.Hooks
+namespace AspireApp.Tests.EndToEnd.Hooks
 {
     [Binding]
     internal class TestRunHooks

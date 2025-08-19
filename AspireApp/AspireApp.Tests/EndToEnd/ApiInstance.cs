@@ -1,6 +1,6 @@
 ﻿using Aspire.Hosting;
 
-namespace AspireApp.Tests.Features.Hooks
+namespace AspireApp.Tests.EndToEnd
 {
     public static class ApiInstance
     {
