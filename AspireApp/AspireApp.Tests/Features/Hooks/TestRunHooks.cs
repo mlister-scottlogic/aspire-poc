@@ -34,6 +34,10 @@ namespace AspireApp.Tests.Features.Hooks
                 .WaitAsync(DefaultTimeout, cancellationToken);
             await app.StartAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
 
+            // These before and after test run methods have to be static,
+            // so hold the app reference in a static class so it can be used in scenarios
+            // This means we have 1 instance of the app per test run rather than starting/stopping
+            // on each which is slow
             ApiInstance.App = app;
         }
 
