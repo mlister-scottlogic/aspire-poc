@@ -1,7 +1,7 @@
-﻿using System.Net.Http.Json;
-using AspireApp.ApiService.Contracts;
+﻿using AspireApp.ApiService.Contracts;
 using Reqnroll;
 using Shouldly;
+using System.Net.Http.Json;
 
 namespace AspireApp.Tests.EndToEnd.StepDefinitions
 {
@@ -76,11 +76,16 @@ namespace AspireApp.Tests.EndToEnd.StepDefinitions
         }
 
         [Then("the entry data is stored in the database")]
-        public void ThenTheDataIsStoredInTheDatabase(DataTable dataTable)
+        public async Task ThenTheDataIsStoredInTheDatabase(DataTable dataTable)
         {
             var dailyEntryData = dataTable.CreateInstance<DailyEntryTable>();
 
             var entryId = _scenarioContext.GetEntryId();
+
+            entryId.ShouldNotBeNull();
+
+            var repo = await AppInstance.GetDailyEntryRepositoryAsync();
+            var data = await repo.GetDailyEntryByIdAsync(entryId.Value);
 
             // Get by entryId from database
             // Assert against data table

@@ -11,7 +11,7 @@
 #region Designer generated code
 #pragma warning disable
 using Reqnroll;
-namespace AspireApp.Tests.Features.Entries
+namespace AspireApp.Tests.EndToEnd.Features.Entries
 {
     
     
@@ -27,7 +27,7 @@ namespace AspireApp.Tests.Features.Entries
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features/Entries", "Entries API layer", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "EndToEnd/Features/Entries", "Entries API layer", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
 #line 1 "Entries.feature"
 #line hidden

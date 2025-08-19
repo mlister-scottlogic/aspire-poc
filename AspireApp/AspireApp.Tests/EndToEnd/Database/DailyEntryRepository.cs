@@ -12,7 +12,7 @@ namespace AspireApp.Tests.EndToEnd.Database
             _entryContext = entryContext;
         }
 
-        public async Task<DailyEntryEntity?> GetDailyEntryById(Guid id)
+        public async Task<DailyEntryEntity?> GetDailyEntryByIdAsync(Guid id)
         {
             return await _entryContext.DailyEntries.FindAsync(id);
         }

@@ -38,15 +38,15 @@ namespace AspireApp.Tests.EndToEnd.Hooks
             // so hold the app reference in a static class so it can be used in scenarios
             // This means we have 1 instance of the app per test run rather than starting/stopping
             // on each which is slow
-            ApiInstance.App = app;
+            AppInstance.App = app;
         }
 
         [AfterTestRun]
         public static async Task StopApiAsync()
         {
-            if (ApiInstance.App != null)
+            if (AppInstance.App != null)
             {
-                await ApiInstance.App.DisposeAsync();
+                await AppInstance.App.DisposeAsync();
             }
         }
     }

@@ -20,9 +20,9 @@ namespace AspireApp.Tests.EndToEnd.Hooks
             // Check app is healthy
             var cancellationToken = TestContext.CurrentContext.CancellationToken;
 
-            var httpClient = ApiInstance.App.CreateHttpClient("apiservice");
+            var httpClient = AppInstance.App.CreateHttpClient("apiservice");
 
-            await ApiInstance
+            await AppInstance
                 .App.ResourceNotifications.WaitForResourceHealthyAsync(
                     "apiservice",
                     cancellationToken
