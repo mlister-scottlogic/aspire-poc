@@ -25,7 +25,7 @@ namespace AspireApp.Tests.Features.StepDefinitions
             _scenarioContext.SetRequest(request);
         }
 
-        private class DailyEntryTable
+        public class DailyEntryTable
         {
             public string? Title { get; set; }
 
@@ -63,19 +63,27 @@ namespace AspireApp.Tests.Features.StepDefinitions
         }
 
         [Then("the entries request is successful with a status code of {int}")]
-        public void ThenTheEntriesRequestIsSuccessfulWithAStatusCodeOf(int statusCode)
+        public async Task ThenTheEntriesRequestIsSuccessfulWithAStatusCodeOf(int statusCode)
         {
             var response = _scenarioContext.GetResponse();
 
             response.IsSuccessStatusCode.ShouldBeTrue();
 
             ((int)response.StatusCode).ShouldBe(statusCode);
+
+            var dailyEntriesResponse = await response.Content.ReadFromJsonAsync<DailyEntryWithId>();
+            _scenarioContext.SetEntryId(dailyEntriesResponse!.Id);
         }
 
-        [Then("the data is stored in the database")]
-        public void ThenTheDataIsStoredInTheDatabase()
+        [Then("the entry data is stored in the database")]
+        public void ThenTheDataIsStoredInTheDatabase(DataTable dataTable)
         {
-            throw new PendingStepException();
+            var dailyEntryData = dataTable.CreateInstance<DailyEntryTable>();
+
+            var entryId = _scenarioContext.GetEntryId();
+
+            // Get by entryId from database
+            // Assert against data table
         }
 
         [Then("there is an event on the downstream queue")]

@@ -140,6 +140,21 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
  await testRunner.ThenAsync("the entries request is successful with a status code of 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "Title",
+                            "Description",
+                            "Date",
+                            "Distance",
+                            "DistanceUnit"});
+                table2.AddRow(new string[] {
+                            "Day 1",
+                            "The porridge was too hot",
+                            "2020-02-01",
+                            "10.5",
+                            "0"});
+#line 9
+ await testRunner.AndAsync("the entry data is stored in the database", ((string)(null)), table2, "And ");
+#line hidden
             }
             await this.ScenarioCleanupAsync();
         }

@@ -34,5 +34,15 @@ namespace AspireApp.Tests.Features.StepDefinitions
         {
             return context.Get<HttpResponseMessage>("response");
         }
+
+        public static void SetEntryId(this ScenarioContext context, Guid? id)
+        {
+            context["entryid"] = id;
+        }
+
+        public static Guid? GetEntryId(this ScenarioContext context)
+        {
+            return context.Get<Guid?>("entryid");
+        }
     }
 }
