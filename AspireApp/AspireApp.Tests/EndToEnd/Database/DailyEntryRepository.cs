@@ -1,6 +1,6 @@
-﻿using Dapper;
+﻿using System.ComponentModel.DataAnnotations;
+using Dapper;
 using Npgsql;
-using System.ComponentModel.DataAnnotations;
 
 namespace AspireApp.Tests.EndToEnd.Database
 {

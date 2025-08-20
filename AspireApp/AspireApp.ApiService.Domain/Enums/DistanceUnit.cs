@@ -3,6 +3,6 @@
     public enum DistanceUnit
     {
         Miles,
-        Kilometers
+        Kilometers,
     }
 }

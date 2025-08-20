@@ -1,9 +1,9 @@
-﻿using Aspire.Hosting;
+﻿using System.Net.Http.Json;
+using Aspire.Hosting;
 using AspireApp.ApiService.Contracts;
 using AspireApp.Tests.Performance.LoadFramework;
 using Microsoft.Extensions.Logging;
 using Shouldly;
-using System.Net.Http.Json;
 
 namespace AspireApp.Tests.Performance
 {

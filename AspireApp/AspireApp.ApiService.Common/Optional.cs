@@ -36,7 +36,10 @@
             }
         }
 
-        public async readonly Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> success, Func<Task<TResult>> failure)
+        public readonly async Task<TResult> MatchAsync<TResult>(
+            Func<T, Task<TResult>> success,
+            Func<Task<TResult>> failure
+        )
         {
             if (value is not null)
             {

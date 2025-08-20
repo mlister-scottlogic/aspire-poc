@@ -1,8 +1,8 @@
-﻿using AspireApp.ApiService.Contracts;
+﻿using System.Net.Http.Json;
+using AspireApp.ApiService.Contracts;
 using AspireApp.Tests.EndToEnd.Database;
 using Reqnroll;
 using Shouldly;
-using System.Net.Http.Json;
 
 namespace AspireApp.Tests.EndToEnd.StepDefinitions
 {

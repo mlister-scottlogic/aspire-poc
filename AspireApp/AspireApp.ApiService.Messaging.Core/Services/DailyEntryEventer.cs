@@ -1,7 +1,7 @@
-﻿using AspireApp.ApiService.Domain.Models;
-using RabbitMQ.Client;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
+using AspireApp.ApiService.Domain.Models;
+using RabbitMQ.Client;
 
 namespace AspireApp.ApiService.Messaging.Core.Services
 {
