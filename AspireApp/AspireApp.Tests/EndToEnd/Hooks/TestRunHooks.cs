@@ -32,10 +32,6 @@ namespace AspireApp.Tests.EndToEnd.Hooks
                 logging.AddFilter(appHost.Environment.ApplicationName, LogLevel.Debug);
                 logging.AddFilter("Aspire.", LogLevel.Debug);
             });
-            appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
-            {
-                clientBuilder.AddStandardResilienceHandler();
-            });
 
             var app = await appHost
                 .BuildAsync(cancellationToken)

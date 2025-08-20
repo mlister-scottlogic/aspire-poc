@@ -85,10 +85,6 @@ namespace AspireApp.Tests.Performance
                 logging.AddFilter(appHost.Environment.ApplicationName, LogLevel.Debug);
                 logging.AddFilter("Aspire.", LogLevel.Debug);
             });
-            appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
-            {
-                clientBuilder.AddStandardResilienceHandler();
-            });
 
             var app = await appHost
                 .BuildAsync(cancellationToken)
