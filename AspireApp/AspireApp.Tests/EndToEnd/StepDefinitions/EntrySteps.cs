@@ -7,15 +7,8 @@ using System.Net.Http.Json;
 namespace AspireApp.Tests.EndToEnd.StepDefinitions
 {
     [Binding]
-    internal class EntrySteps
+    internal class EntrySteps(ScenarioContext scenarioContext)
     {
-        private ScenarioContext _scenarioContext;
-
-        public EntrySteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
-
         [Given("an entries request")]
         public void GivenAnEntriesRequest(DataTable dataTable)
         {
@@ -23,38 +16,38 @@ namespace AspireApp.Tests.EndToEnd.StepDefinitions
 
             var request = MapTableToContract(dailyEntryData);
 
-            _scenarioContext.SetRequest(request);
+            scenarioContext.SetRequest(request);
         }
 
         [When("the entries request is sent")]
         public async Task WhenTheEntriesRequestIsSent()
         {
-            var request = _scenarioContext.GetRequest();
+            var request = scenarioContext.GetRequest();
 
-            var httpClient = _scenarioContext.GetHttpClient();
+            var httpClient = scenarioContext.GetHttpClient();
 
             var response = await httpClient.PostAsJsonAsync("/entries", request);
 
-            _scenarioContext.SetResponse(response);
+            scenarioContext.SetResponse(response);
         }
 
         [Then("the entries request is successful with a status code of {int}")]
         public async Task ThenTheEntriesRequestIsSuccessfulWithAStatusCodeOf(int statusCode)
         {
-            var response = _scenarioContext.GetResponse();
+            var response = scenarioContext.GetResponse();
 
             response.IsSuccessStatusCode.ShouldBeTrue();
 
             ((int)response.StatusCode).ShouldBe(statusCode);
 
             var dailyEntriesResponse = await response.Content.ReadFromJsonAsync<DailyEntryWithId>();
-            _scenarioContext.SetEntryId(dailyEntriesResponse!.Id);
+            scenarioContext.SetEntryId(dailyEntriesResponse!.Id);
         }
 
         [Then("the entry data is stored in the database")]
         public async Task ThenTheDataIsStoredInTheDatabase(DataTable dataTable)
         {
-            var entryId = _scenarioContext.GetEntryId();
+            var entryId = scenarioContext.GetEntryId();
 
             entryId.ShouldNotBeNull();
 
