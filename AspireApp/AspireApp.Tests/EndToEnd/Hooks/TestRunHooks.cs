@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Reqnroll;
+using Reqnroll.Assist;
+using Reqnroll.Assist.ValueRetrievers;
 
 namespace AspireApp.Tests.EndToEnd.Hooks
 {
@@ -7,6 +9,12 @@ namespace AspireApp.Tests.EndToEnd.Hooks
     internal class TestRunHooks
     {
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
+
+        [BeforeTestRun]
+        public static void SetupTestFramework()
+        {
+            Service.Instance.ValueRetrievers.Register(new NullValueRetriever("null"));
+        }
 
         [BeforeTestRun]
         public static async Task StartApiAsync()

@@ -44,6 +44,16 @@ namespace AspireApp.Tests.EndToEnd.StepDefinitions
             scenarioContext.SetEntryId(dailyEntriesResponse!.Id);
         }
 
+        [Then("the entries request is unsuccessful with a status code of {int}")]
+        public void ThenTheEntriesRequestIsUnsuccessfulWithAStatusCodeOf(int statusCode)
+        {
+            var response = scenarioContext.GetResponse();
+
+            response.IsSuccessStatusCode.ShouldBeFalse();
+
+            ((int)response.StatusCode).ShouldBe(statusCode);
+        }
+
         [Then("the entry data is stored in the database")]
         public async Task ThenTheDataIsStoredInTheDatabase(DataTable dataTable)
         {

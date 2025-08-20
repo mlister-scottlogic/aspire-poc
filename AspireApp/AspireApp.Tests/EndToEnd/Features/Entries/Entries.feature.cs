@@ -103,12 +103,20 @@ namespace AspireApp.Tests.EndToEnd.Features.Entries
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Can add entry")]
-        public async global::System.Threading.Tasks.Task CanAddEntry()
+        [NUnit.Framework.DescriptionAttribute("Can\'t add entry with missing fields")]
+        [NUnit.Framework.TestCaseAttribute("null", "The porridge was too hot", "2020-02-01", "10.5", "Miles", null)]
+        [NUnit.Framework.TestCaseAttribute("Day 1", "The porridge was too cold", "null", "10.5", "Miles", null)]
+        [NUnit.Framework.TestCaseAttribute("Day 2", "The porridge was too sweet", "2020-02-01", "null", "Miles", null)]
+        public async global::System.Threading.Tasks.Task CantAddEntryWithMissingFields(string title, string description, string date, string distance, string unit, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Can add entry", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            argumentsOfScenario.Add("title", title);
+            argumentsOfScenario.Add("description", description);
+            argumentsOfScenario.Add("date", date);
+            argumentsOfScenario.Add("distance", distance);
+            argumentsOfScenario.Add("unit", unit);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Can\'t add entry with missing fields", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -126,11 +134,11 @@ this.ScenarioInitialize(scenarioInfo);
                             "Distance",
                             "DistanceUnit"});
                 table1.AddRow(new string[] {
-                            "Day 1",
-                            "The porridge was too hot",
-                            "2020-02-01",
-                            "10.5",
-                            "Miles"});
+                            string.Format("{0}", title),
+                            string.Format("{0}", description),
+                            string.Format("{0}", date),
+                            string.Format("{0}", distance),
+                            string.Format("{0}", unit)});
 #line 4
  await testRunner.GivenAsync("an entries request", ((string)(null)), table1, "Given ");
 #line hidden
@@ -138,8 +146,29 @@ this.ScenarioInitialize(scenarioInfo);
  await testRunner.WhenAsync("the entries request is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 8
- await testRunner.ThenAsync("the entries request is successful with a status code of 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("the entries request is unsuccessful with a status code of 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Can add entry")]
+        public async global::System.Threading.Tasks.Task CanAddEntry()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Can add entry", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 16
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
                 global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Title",
                             "Description",
@@ -147,13 +176,34 @@ this.ScenarioInitialize(scenarioInfo);
                             "Distance",
                             "DistanceUnit"});
                 table2.AddRow(new string[] {
-                            "Day 1",
-                            "The porridge was too hot",
+                            "Day 7",
+                            "The porridge was just right",
                             "2020-02-01",
                             "10.5",
                             "Miles"});
-#line 9
- await testRunner.AndAsync("the entry data is stored in the database", ((string)(null)), table2, "And ");
+#line 17
+ await testRunner.GivenAsync("an entries request", ((string)(null)), table2, "Given ");
+#line hidden
+#line 20
+ await testRunner.WhenAsync("the entries request is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 21
+ await testRunner.ThenAsync("the entries request is successful with a status code of 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                            "Title",
+                            "Description",
+                            "Date",
+                            "Distance",
+                            "DistanceUnit"});
+                table3.AddRow(new string[] {
+                            "Day 7",
+                            "The porridge was just right",
+                            "2020-02-01",
+                            "10.5",
+                            "Miles"});
+#line 22
+ await testRunner.AndAsync("the entry data is stored in the database", ((string)(null)), table3, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
