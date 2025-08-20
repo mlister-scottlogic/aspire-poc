@@ -17,6 +17,11 @@ namespace AspireApp.Tests.EndToEnd.Hooks
         [BeforeScenario]
         public async Task BeforeScenario()
         {
+            if (AppInstance.App is null)
+            {
+                throw new InvalidOperationException();
+            }
+
             // Check app is healthy
             var cancellationToken = TestContext.CurrentContext.CancellationToken;
 
