@@ -4,15 +4,9 @@ using Reqnroll;
 namespace AspireApp.Tests.EndToEnd.Hooks
 {
     [Binding]
-    internal class EntryHooks
+    internal class EntryHooks(ScenarioContext scenarioContext)
     {
-        private ScenarioContext _scenarioContext;
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
-
-        public EntryHooks(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
 
         [BeforeScenario]
         public async Task BeforeScenario()
@@ -37,7 +31,7 @@ namespace AspireApp.Tests.EndToEnd.Hooks
             Console.WriteLine("App healthy");
 
             // Setup Scenario Context
-            _scenarioContext.SetHttpClient(httpClient);
+            scenarioContext.SetHttpClient(httpClient);
         }
     }
 }
