@@ -7,6 +7,7 @@
 - Deployment?
 - Frontend improvements
 - Swagger generation on build + test
+- Enums as strings on contract
 
 # Done
 
