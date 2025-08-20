@@ -17,7 +17,7 @@ namespace AspireApp.Tests.EndToEnd.Database
         {
             await using var connection = await _dataSource.OpenConnectionAsync();
 
-            return await connection.QueryFirstOrDefaultAsync<DailyEntryEntity>(
+            return await connection.QuerySingleOrDefaultAsync<DailyEntryEntity>(
                 $"SELECT * FROM apiservice.daily_entries WHERE id = '{id}'"
             );
         }

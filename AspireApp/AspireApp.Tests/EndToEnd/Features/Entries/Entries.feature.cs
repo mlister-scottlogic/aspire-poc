@@ -130,7 +130,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "The porridge was too hot",
                             "2020-02-01",
                             "10.5",
-                            "0"});
+                            "Miles"});
 #line 4
  await testRunner.GivenAsync("an entries request", ((string)(null)), table1, "Given ");
 #line hidden
@@ -151,7 +151,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "The porridge was too hot",
                             "2020-02-01",
                             "10.5",
-                            "0"});
+                            "Miles"});
 #line 9
  await testRunner.AndAsync("the entry data is stored in the database", ((string)(null)), table2, "And ");
 #line hidden
