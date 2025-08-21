@@ -205,6 +205,21 @@ this.ScenarioInitialize(scenarioInfo);
 #line 22
  await testRunner.AndAsync("the entry data is stored in the database", ((string)(null)), table3, "And ");
 #line hidden
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                            "Title",
+                            "Description",
+                            "Date",
+                            "Distance",
+                            "DistanceUnit"});
+                table4.AddRow(new string[] {
+                            "Day 7",
+                            "The porridge was just right",
+                            "2020-02-01",
+                            "10.5",
+                            "Miles"});
+#line 25
+ await testRunner.AndAsync("there is an event on the entries queue", ((string)(null)), table4, "And ");
+#line hidden
             }
             await this.ScenarioCleanupAsync();
         }

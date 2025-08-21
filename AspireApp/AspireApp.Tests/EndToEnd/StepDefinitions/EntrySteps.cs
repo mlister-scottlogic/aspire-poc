@@ -70,10 +70,16 @@ namespace AspireApp.Tests.EndToEnd.StepDefinitions
             dataTable.CompareToInstance(dataTableEquivalent);
         }
 
-        [Then("there is an event on the downstream queue")]
-        public void ThenThereIsAnEventOnTheDownstreamQueue()
+        [Then("there is an event on the entries queue")]
+        public void ThenThereIsAnEventOnTheDownstreamQueue(DataTable dataTable)
         {
-            throw new PendingStepException();
+            var entryId = scenarioContext.GetEntryId();
+
+            // Wait for message to arrive on queue (could be a while)
+            // Assert message has same details as dataTable
+
+            // Failure until implemented
+            true.ShouldBeFalse();
         }
 
         public class DailyEntryTable

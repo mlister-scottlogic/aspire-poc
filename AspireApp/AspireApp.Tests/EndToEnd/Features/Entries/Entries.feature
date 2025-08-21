@@ -22,4 +22,6 @@ Scenario: Can add entry
 	And the entry data is stored in the database
 		| Title | Description                 | Date       | Distance | DistanceUnit |
 		| Day 7 | The porridge was just right | 2020-02-01 | 10.5     | Miles        |
-	#And there is an event on the downstream queue
+	And there is an event on the entries queue
+		| Title | Description                 | Date       | Distance | DistanceUnit |
+		| Day 7 | The porridge was just right | 2020-02-01 | 10.5     | Miles        |
