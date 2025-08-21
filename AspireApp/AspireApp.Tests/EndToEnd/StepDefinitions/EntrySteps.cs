@@ -71,19 +71,21 @@ namespace AspireApp.Tests.EndToEnd.StepDefinitions
         }
 
         [Then("there is an event on the entries queue")]
-        public async Task ThenThereIsAnEventOnTheDownstreamQueue(DataTable dataTable)
+        public async Task ThenThereIsAnEventOnTheEntriesQueue(DataTable dataTable)
         {
             var entryId = scenarioContext.GetEntryId();
 
+            if (entryId is null)
+            {
+                throw new InvalidOperationException("Must set entry id before using this step");
+            }
+
             var testQueueListener = await AppInstance.GetTestQueueListenerAsync();
-            await testQueueListener.ListenForMessagesAsync();
 
-            await Task.Delay(30_000);
-            // Wait for message to arrive on queue (could be a while)
-            // Assert message has same details as dataTable
-
-            // Failure until implemented
-            true.ShouldBeFalse();
+            var messagesForId = await testQueueListener.GetMessagesForIdAsync(entryId.Value);
+            var item = messagesForId.ShouldHaveSingleItem();
+            item.Id.ShouldBe(entryId);
+            dataTable.CompareToInstance(MapContactToTable(item));
         }
 
         public class DailyEntryTable
@@ -108,6 +110,18 @@ namespace AspireApp.Tests.EndToEnd.StepDefinitions
                 Date = dailyEntryTable.Date != null ? DateOnly.Parse(dailyEntryTable.Date!) : null,
                 Distance = dailyEntryTable.Distance,
                 DistanceUnit = dailyEntryTable.DistanceUnit,
+            };
+        }
+
+        private static DailyEntryTable MapContactToTable(DailyEntryWithId dailyEntry)
+        {
+            return new DailyEntryTable()
+            {
+                Title = dailyEntry.Title,
+                Description = dailyEntry.Description,
+                Date = dailyEntry.Date!.Value.ToString("yyyy-MM-dd"),
+                Distance = dailyEntry.Distance,
+                DistanceUnit = dailyEntry.DistanceUnit,
             };
         }
 

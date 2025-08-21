@@ -43,6 +43,9 @@ namespace AspireApp.Tests.EndToEnd.Hooks
             // This means we have 1 instance of the app per test run rather than starting/stopping
             // on each which is slow
             AppInstance.App = app;
+
+            var testQueueListener = await AppInstance.GetTestQueueListenerAsync();
+            await testQueueListener.StartListeningToMessagesAsync();
         }
 
         [AfterTestRun]
@@ -52,6 +55,8 @@ namespace AspireApp.Tests.EndToEnd.Hooks
             {
                 await AppInstance.App.DisposeAsync();
             }
+
+            (await AppInstance.GetTestQueueListenerAsync()).Dispose();
         }
     }
 }

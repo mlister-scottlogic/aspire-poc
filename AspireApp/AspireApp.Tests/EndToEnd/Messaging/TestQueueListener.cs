@@ -9,9 +9,12 @@ namespace AspireApp.Tests.EndToEnd.Messaging
     {
         private readonly IConnection _connection;
 
+        private readonly IDictionary<Guid, IList<DailyEntryWithId>> _entryMessages;
+
         public TestQueueListener(IConnection connection)
         {
             _connection = connection;
+            _entryMessages = new Dictionary<Guid, IList<DailyEntryWithId>>();
         }
 
         public void Dispose()
@@ -19,7 +22,7 @@ namespace AspireApp.Tests.EndToEnd.Messaging
             _connection.Dispose();
         }
 
-        public async Task ListenForMessagesAsync()
+        public async Task StartListeningToMessagesAsync()
         {
             var channel = await _connection.CreateChannelAsync();
 
@@ -30,9 +33,16 @@ namespace AspireApp.Tests.EndToEnd.Messaging
 
                 var dailyEntry = JsonSerializer.Deserialize<DailyEntryWithId>(body);
 
-                Console.WriteLine("DailyEntry Event:");
-                Console.WriteLine(dailyEntry.Id);
-                Console.WriteLine(dailyEntry.Title);
+                if (_entryMessages.TryGetValue(dailyEntry.Id.Value, out var list))
+                {
+                    list.Add(dailyEntry);
+                }
+                else
+                {
+                    _entryMessages.Add(dailyEntry.Id.Value, [dailyEntry]);
+                }
+
+                OnMessageReceived(dailyEntry);
 
                 await channel.BasicAckAsync(ea.DeliveryTag, false);
             };
@@ -44,8 +54,43 @@ namespace AspireApp.Tests.EndToEnd.Messaging
                 autoDelete: false
             );
             string consumerTag = await channel.BasicConsumeAsync("daily_entries", false, consumer);
+        }
 
-            //await Task.Delay(30_000);
+        public async Task<IList<DailyEntryWithId>?> GetMessagesForIdAsync(Guid id)
+        {
+            if (_entryMessages.TryGetValue(id, out var list))
+            {
+                return list;
+            }
+
+            var cancelationToken = new CancellationTokenSource();
+
+            MessageReceived += (o, e) =>
+            {
+                if (e.Id == id)
+                {
+                    cancelationToken.Cancel();
+                }
+            };
+
+            // Wait for up to 30 seconds or until the cancellation token is cancelled by
+            // the MessageReceived event handler
+            await Task.Delay(TimeSpan.FromSeconds(30), cancelationToken.Token)
+                .ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+
+            if (_entryMessages.TryGetValue(id, out var newList))
+            {
+                return newList;
+            }
+
+            return null;
+        }
+
+        public event EventHandler<DailyEntryWithId>? MessageReceived;
+
+        protected virtual void OnMessageReceived(DailyEntryWithId e)
+        {
+            MessageReceived?.Invoke(this, e);
         }
     }
 }
