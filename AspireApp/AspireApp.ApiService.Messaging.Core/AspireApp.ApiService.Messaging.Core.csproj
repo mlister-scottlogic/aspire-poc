@@ -10,6 +10,7 @@
     <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AspireApp.ApiService.Contracts\AspireApp.ApiService.Contracts.csproj" />
     <ProjectReference Include="..\AspireApp.ApiService.Data\AspireApp.ApiService.Data.csproj" />
     <ProjectReference Include="..\AspireApp.ApiService.Messaging\AspireApp.ApiService.Messaging.csproj" />
   </ItemGroup>

@@ -27,7 +27,7 @@ namespace AspireApp.ApiService.Messaging.Core.Services
                 autoDelete: false
             );
 
-            var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(entry));
+            var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(ConvertToContract(entry)));
 
             await channel.BasicPublishAsync(
                 exchange: string.Empty,
@@ -36,6 +36,19 @@ namespace AspireApp.ApiService.Messaging.Core.Services
             );
 
             return true;
+        }
+
+        private static Contracts.DailyEntryWithId ConvertToContract(DailyEntryWithId entry)
+        {
+            return new Contracts.DailyEntryWithId()
+            {
+                Id = entry.Id,
+                Title = entry.Title,
+                Distance = entry.Distance,
+                Date = entry.Date,
+                Description = entry.Description,
+                DistanceUnit = Enum.Parse<Contracts.DistanceUnit>(entry.DistanceUnit.ToString()),
+            };
         }
     }
 }

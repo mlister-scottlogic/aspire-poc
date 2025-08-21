@@ -71,10 +71,14 @@ namespace AspireApp.Tests.EndToEnd.StepDefinitions
         }
 
         [Then("there is an event on the entries queue")]
-        public void ThenThereIsAnEventOnTheDownstreamQueue(DataTable dataTable)
+        public async Task ThenThereIsAnEventOnTheDownstreamQueue(DataTable dataTable)
         {
             var entryId = scenarioContext.GetEntryId();
 
+            var testQueueListener = await AppInstance.GetTestQueueListenerAsync();
+            await testQueueListener.ListenForMessagesAsync();
+
+            await Task.Delay(30_000);
             // Wait for message to arrive on queue (could be a while)
             // Assert message has same details as dataTable
 
