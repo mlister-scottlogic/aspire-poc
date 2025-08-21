@@ -1,3 +1,4 @@
+using AspireApp.Constants;
 using Microsoft.Extensions.Logging;
 
 namespace AspireApp.Tests;
@@ -34,9 +35,12 @@ public class WebTests
         await app.StartAsync(cancellationToken).WaitAsync(DefaultTimeout, cancellationToken);
 
         // Act
-        var httpClient = app.CreateHttpClient("webfrontend");
+        var httpClient = app.CreateHttpClient(AspireConstants.Frontend);
         await app
-            .ResourceNotifications.WaitForResourceHealthyAsync("webfrontend", cancellationToken)
+            .ResourceNotifications.WaitForResourceHealthyAsync(
+                AspireConstants.Frontend,
+                cancellationToken
+            )
             .WaitAsync(DefaultTimeout, cancellationToken);
         var response = await httpClient.GetAsync("/", cancellationToken);
 

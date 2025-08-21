@@ -22,6 +22,7 @@
     <ProjectReference Include="..\AspireApp.ApiService.Data.Core\AspireApp.ApiService.Data.Core.csproj" />
     <ProjectReference Include="..\AspireApp.ApiService.Domain.Core\AspireApp.ApiService.Domain.Core.csproj" />
     <ProjectReference Include="..\AspireApp.ApiService.Messaging.Core\AspireApp.ApiService.Messaging.Core.csproj" />
+    <ProjectReference Include="..\AspireApp.AspireConstants\AspireApp.Constants.csproj" />
     <ProjectReference Include="..\AspireApp.ServiceDefaults\AspireApp.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

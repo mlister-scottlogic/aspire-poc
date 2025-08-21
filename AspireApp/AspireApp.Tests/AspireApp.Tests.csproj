@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AspireApp.ApiService.Contracts\AspireApp.ApiService.Contracts.csproj" />
     <ProjectReference Include="..\AspireApp.AppHost\AspireApp.AppHost.csproj" />
+    <ProjectReference Include="..\AspireApp.AspireConstants\AspireApp.Constants.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="System.Net" />

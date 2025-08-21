@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using Aspire.Hosting;
 using AspireApp.ApiService.Contracts;
+using AspireApp.Constants;
 using AspireApp.Tests.Performance.LoadFramework;
 using Microsoft.Extensions.Logging;
 using Shouldly;
@@ -20,10 +21,13 @@ namespace AspireApp.Tests.Performance
 
             _application = await StartupAppAsync();
 
-            using var httpClient = _application.CreateHttpClient("apiservice");
+            using var httpClient = _application.CreateHttpClient(AspireConstants.Api);
 
             await _application
-                .ResourceNotifications.WaitForResourceHealthyAsync("apiservice", cancellationToken)
+                .ResourceNotifications.WaitForResourceHealthyAsync(
+                    AspireConstants.Api,
+                    cancellationToken
+                )
                 .WaitAsync(DefaultTimeout, cancellationToken);
         }
 
@@ -32,11 +36,14 @@ namespace AspireApp.Tests.Performance
         {
             var cancellationToken = TestContext.CurrentContext.CancellationToken;
 
-            using var httpClient = _application.CreateHttpClient("apiservice");
+            using var httpClient = _application.CreateHttpClient(AspireConstants.Api);
 
             // Check healthy before starting test even though we already wait for it in Setup
             await _application
-                .ResourceNotifications.WaitForResourceHealthyAsync("apiservice", cancellationToken)
+                .ResourceNotifications.WaitForResourceHealthyAsync(
+                    AspireConstants.Api,
+                    cancellationToken
+                )
                 .WaitAsync(DefaultTimeout, cancellationToken);
 
             var dailyEntry = new DailyEntry()

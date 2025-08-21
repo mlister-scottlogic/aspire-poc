@@ -1,4 +1,5 @@
-﻿using AspireApp.Tests.EndToEnd.StepDefinitions;
+﻿using AspireApp.Constants;
+using AspireApp.Tests.EndToEnd.StepDefinitions;
 using Reqnroll;
 
 namespace AspireApp.Tests.EndToEnd.Hooks
@@ -19,11 +20,11 @@ namespace AspireApp.Tests.EndToEnd.Hooks
             // Check app is healthy
             var cancellationToken = TestContext.CurrentContext.CancellationToken;
 
-            var httpClient = AppInstance.App.CreateHttpClient("apiservice");
+            var httpClient = AppInstance.App.CreateHttpClient(AspireConstants.Api);
 
             await AppInstance
                 .App.ResourceNotifications.WaitForResourceHealthyAsync(
-                    "apiservice",
+                    AspireConstants.Api,
                     cancellationToken
                 )
                 .WaitAsync(DefaultTimeout, cancellationToken);

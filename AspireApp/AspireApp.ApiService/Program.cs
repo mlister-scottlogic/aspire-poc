@@ -2,6 +2,7 @@ using AspireApp.ApiService.Data.Core.ServiceStartup;
 using AspireApp.ApiService.Domain.Core.ServiceStartup;
 using AspireApp.ApiService.HangfireJobs;
 using AspireApp.ApiService.Messaging.Core.ServiceStartup;
+using AspireApp.Constants;
 using AspireApp.ServiceDefaults;
 using Hangfire;
 using Scalar.AspNetCore;
@@ -16,7 +17,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
 
-builder.AddNpgsqlDataSource("postgresdb");
+builder.AddNpgsqlDataSource(AspireConstants.Database);
 
 builder.Services.RegisterData(builder.Configuration).RegisterDomain().RegisterMessaging();
 
@@ -28,7 +29,7 @@ builder.Services.AddHangfireServer(o =>
     o.SchedulePollingInterval = TimeSpan.FromMilliseconds(5000)
 );
 
-builder.AddRabbitMQClient(connectionName: "messaging");
+builder.AddRabbitMQClient(connectionName: AspireConstants.Messaging);
 
 var app = builder.Build();
 

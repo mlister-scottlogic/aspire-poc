@@ -1,5 +1,6 @@
 ﻿using AspireApp.ApiService.Data.Core.Repositories;
 using AspireApp.ApiService.Data.Repositories;
+using AspireApp.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@ namespace AspireApp.ApiService.Data.Core.ServiceStartup
 
             serviceCollection.AddTransient<ITransactionSaver, TransactionSaver>();
             serviceCollection.AddDbContextPool<EntryContext>(opt =>
-                opt.UseNpgsql(configuration.GetConnectionString("postgresdb"))
+                opt.UseNpgsql(configuration.GetConnectionString(AspireConstants.Database))
                     .UseSnakeCaseNamingConvention()
             );
             return serviceCollection;
