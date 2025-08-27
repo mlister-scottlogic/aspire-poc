@@ -10,6 +10,9 @@
 
 - Basic Aspire setup
 - End to end testing available in Aspire.Tests
+- End to end API tests in cucumber
+  - These run in parallel so must make sure that these tests can support this
+  - Uses a single instance of the API to stop the setup time for each test
 
 ### Web app
 
@@ -25,7 +28,9 @@
   - This allows for easier referencing where there would usually be circular references
   - This also allows projects to be swapped out, e.g. Data could have a Data.Core (Postgres), then if a swap was needed to SQLServer a Data.SqlServer could be written and swapped in while both exist using a feature flag at startup time
   - Classes in Core projects should be at most internal!
+  - Contracts project must not reference any other project
 - Optional<T> if something may not exist Optional<T> should be used, the only way to get the results out here is to call `Match` with a `success` and `failure` function meaning you must handle both cases
+- Passing collections around which are already executed should generally be passed as IReadOnlyCollection if the order of the collection doesn't matter, or IReadOnlyList if the order of the items matter
 
 
 ### Blazor frontend
