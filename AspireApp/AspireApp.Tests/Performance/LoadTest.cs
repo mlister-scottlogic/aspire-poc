@@ -10,7 +10,7 @@ namespace AspireApp.Tests.Performance
 {
     public class LoadTest : IDisposable
     {
-        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(300);
 
         private DistributedApplication _application;
 

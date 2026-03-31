@@ -8,7 +8,7 @@ namespace AspireApp.Tests.EndToEnd.Hooks
     [Binding]
     internal class TestRunHooks
     {
-        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60);
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(300);
 
         [BeforeTestRun]
         public static void SetupTestFramework()

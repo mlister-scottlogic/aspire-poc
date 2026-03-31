@@ -2,7 +2,7 @@
   <Sdk Name="Aspire.AppHost.Sdk" Version="9.3.1" />
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>980f270c-976f-4ef1-bbc6-2b3f435cc955</UserSecretsId>
@@ -10,15 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AspireApp.ApiService\AspireApp.ApiService.csproj" />
-    <ProjectReference
-      Include="..\AspireApp.AspireConstants\AspireApp.Constants.csproj"
-      IsAspireProjectResource="false"
-    />
+    <ProjectReference Include="..\AspireApp.AspireConstants\AspireApp.Constants.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\AspireApp.Web\AspireApp.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.1" />
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.1" />
-    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.4.1" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="13.2.1" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.2.1" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="13.2.1" />
   </ItemGroup>
 </Project>
